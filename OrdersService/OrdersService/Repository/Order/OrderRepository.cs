@@ -10,6 +10,22 @@ namespace OrdersService.Repository.Order
         {
         }
 
-        public Task<Model.Order> LastOrDefaultAsync() => base._context.Orders.LastOrDefaultAsync();
+        public Task<List<Model.Order>> GetAllAndInclude()
+        {
+            return base._context.Orders
+                .Include(x => x.OrderProducts)
+                .AsNoTracking()
+                .ToListAsync()
+                ;
+        }
+
+        public Task<Model.Order> GetAndInclude(int id)
+        {
+            return base._context.Orders
+                .Include(x => x.OrderProducts)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.Id == id)
+                ;
+        }
     }
 }

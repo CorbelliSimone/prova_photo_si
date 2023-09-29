@@ -6,7 +6,9 @@ using ProductsService.Service.Product.Dto;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace ProductsServiceTest.Controller
+using Xunit;
+
+namespace ProductsServiceTest
 {
     public class ProductControllerTest : IClassFixture<WebApplicationFactory<Startup>>
     {
@@ -78,15 +80,15 @@ namespace ProductsServiceTest.Controller
         public async Task UpdateProduct(ProductDto productDto)
         {
             using HttpClient client = _factory.CreateClient();
-            var responsePost = await Post(productDto, client);
+            HttpResponseMessage responsePost = await Post(productDto, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            var responseDto = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
+            ProductDto? responseDto = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
             Assert.NotNull(responseDto);
 
             productDto.Name = $"{productDto.Name}_new";
             productDto.Description = $"{productDto.Description}_new";
-            var responseDelete = await client.PutAsJsonAsync($"/api/v1/product/{responseDto.Id}", productDto);
+            HttpResponseMessage responseDelete = await client.PutAsJsonAsync($"/api/v1/product/{responseDto.Id}", productDto);
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
@@ -95,7 +97,7 @@ namespace ProductsServiceTest.Controller
         public async Task AddProduct(ProductDto productDto)
         {
             using HttpClient client = _factory.CreateClient();
-            var responsePost = await Post(productDto, client);
+            HttpResponseMessage responsePost = await Post(productDto, client);
             Assert.True(responsePost.StatusCode is HttpStatusCode.Created);
         }
 
@@ -104,13 +106,13 @@ namespace ProductsServiceTest.Controller
         public async Task DeleteProduct(ProductDto productDto)
         {
             using HttpClient client = _factory.CreateClient();
-            var responsePost = await Post(productDto, client);
+            HttpResponseMessage responsePost = await Post(productDto, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            var responseDto = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
+            ProductDto? responseDto = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
             Assert.NotNull(responseDto);
 
-            var responseDelete = await client.DeleteAsync($"/api/v1/product/{responseDto.Id}");
+            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/product/{responseDto.Id}");
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 

@@ -6,7 +6,7 @@ namespace AddressBooksService.Repository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private readonly Context _context;
+        protected readonly Context _context;
 
         public GenericRepository(Context context)
         {

@@ -11,7 +11,7 @@ namespace OrdersService.Model
         [Column("id"), Required, Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column("order_number"), Required]
+        [Column("order_number"), Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderNumber { get; set; }
 
         [Column("order_name"), Required]

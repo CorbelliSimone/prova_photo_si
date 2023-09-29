@@ -2,9 +2,9 @@
 {
     public class OrderDto
     {
+        public int Id { get; set; }
         public int OrderNumber { get; set; }
         public string OrderName { get; set; }
-        public int Quantity { get; set; }
         public List<ProductDto> Products { get; set; }
         public int UserId { get; set; }
     }

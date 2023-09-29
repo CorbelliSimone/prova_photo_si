@@ -36,14 +36,20 @@ namespace OrdersService.Migrations
                         .HasColumnName("order_name");
 
                     b.Property<int>("OrderNumber")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("order_number");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderNumber"));
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderNumber")
+                        .IsUnique();
 
                     b.ToTable("order");
                 });
@@ -72,9 +78,6 @@ namespace OrdersService.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("Quantity")
-                        .IsUnique();
 
                     b.ToTable("order_products");
                 });

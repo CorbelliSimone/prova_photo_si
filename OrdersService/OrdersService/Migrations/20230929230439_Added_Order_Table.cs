@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace OrdersService.Migrations
 {
-    public partial class Added_Table_Order : Migration
+    public partial class Added_Order_Table : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,8 @@ namespace OrdersService.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    order_number = table.Column<int>(type: "integer", nullable: false),
+                    order_number = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     order_name = table.Column<string>(type: "text", nullable: false),
                     user_id = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -46,15 +47,15 @@ namespace OrdersService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_order_order_number",
+                table: "order",
+                column: "order_number",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_order_products_order_id",
                 table: "order_products",
                 column: "order_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_order_products_quantity",
-                table: "order_products",
-                column: "quantity",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

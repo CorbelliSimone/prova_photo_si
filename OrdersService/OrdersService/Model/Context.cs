@@ -23,8 +23,8 @@ namespace OrdersService.Model
                 .HasForeignKey(x => x.OrderId)
                 ;
 
-            modelBuilder.Entity<OrderProducts>()
-                .HasIndex(x => x.Quantity)
+            modelBuilder.Entity<Order>()
+                .HasIndex(x => x.OrderNumber)
                 .IsUnique()
                 ;
         }

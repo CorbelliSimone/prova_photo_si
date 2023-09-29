@@ -32,19 +32,19 @@ namespace OrdersService.Service.Order
             await _orderRepository.DeleteAsync(id);
         }
 
-        public async Task<List<Model.Order>> GetAsync()
+        public async Task<List<OrderDto>> GetAsync()
         {
-            var orders = await _orderRepository.GetAsync();
-            return _mapper.Map<List<Model.Order>>(orders);
+            var orders = await _orderRepository.GetAllAndInclude();
+            return _mapper.Map<List<OrderDto>>(orders);
         }
 
-        public async Task<Model.Order> GetAsync(int id)
+        public async Task<OrderDto> GetAsync(int id)
         {
-            var order = await _orderRepository.GetAsync(id);
-            return _mapper.Map<Model.Order>(order);
+            var order = await _orderRepository.GetAndInclude(id);
+            return _mapper.Map<OrderDto>(order);
         }
 
-        public async Task<Model.Order> AddAsync(OrderDto orderDto)
+        public async Task<OrderDto> AddAsync(OrderDto orderDto)
         {
             var orderProducts = new List<Model.OrderProducts>();
             orderDto.Products.ForEach(product =>
@@ -56,16 +56,14 @@ namespace OrdersService.Service.Order
                 });
             });
 
-            var lastOrder = await _orderRepository.LastOrDefaultAsync();
-            var newOrderNumber = lastOrder == null ? 1 : lastOrder.OrderNumber + 1;
-
-            return await _orderRepository.AddAsync(new Model.Order()
+            var inserted = await _orderRepository.AddAsync(new Model.Order()
             {
                 OrderProducts = orderProducts,
                 UserId = orderDto.UserId,
-                OrderName = orderDto.OrderName,
-                OrderNumber = newOrderNumber
+                OrderName = orderDto.OrderName
             });
+
+            return _mapper.Map<OrderDto>(inserted);
         }
     }
 }
