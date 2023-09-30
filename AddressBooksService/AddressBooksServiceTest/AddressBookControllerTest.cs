@@ -99,14 +99,13 @@ namespace AddressBooksServiceTest
             HttpResponseMessage responsePost = await PostInternal(addressBook, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            var insertedId = await responsePost.Content.ReadAsStringAsync();
-            Assert.NotNull(insertedId);
-            Assert.NotEqual("", insertedId);
+            var inserted = await responsePost.Content.ReadFromJsonAsync<AddressBook>();
+            Assert.NotNull(inserted);
 
             addressBook.Cap = $"{addressBook.Cap}_new";
             addressBook.StreetName = $"{addressBook.StreetName}_new";
             addressBook.StreetNumber = $"{addressBook.StreetNumber}_new";
-            HttpResponseMessage responseDelete = await client.PutAsJsonAsync($"/api/v1/address-book/{insertedId}", addressBook);
+            HttpResponseMessage responseDelete = await client.PutAsJsonAsync($"/api/v1/address-book/{inserted.Id}", addressBook);
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
@@ -127,11 +126,10 @@ namespace AddressBooksServiceTest
             HttpResponseMessage responsePost = await PostInternal(addressBook, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
             
-            var insertedId = await responsePost.Content.ReadAsStringAsync();
-            Assert.NotNull(insertedId);
-            Assert.NotEqual("", insertedId);
+            var inserted = await responsePost.Content.ReadFromJsonAsync<AddressBook>();
+            Assert.NotNull(inserted);
 
-            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/address-book/{insertedId}");
+            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/address-book/{inserted.Id}");
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 

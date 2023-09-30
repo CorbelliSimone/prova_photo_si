@@ -43,7 +43,7 @@ namespace AddressBooksService.Controllers
             try
             {
                 var createdResource = await _addressBookService.AddAsync(addressBookDto);
-                return Created("", createdResource.Id);
+                return Created("", createdResource);
             }
             catch (Exception e)
             {

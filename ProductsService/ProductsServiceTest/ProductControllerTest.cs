@@ -83,13 +83,12 @@ namespace ProductsServiceTest
             HttpResponseMessage responsePost = await PostInternal(productDto, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            var insertedId = await responsePost.Content.ReadAsStringAsync();
-            Assert.NotNull(insertedId);
-            Assert.NotEqual("", insertedId);
+            var inserted = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
+            Assert.NotNull(inserted);
 
             productDto.Name = $"{productDto.Name}_new";
             productDto.Description = $"{productDto.Description}_new";
-            HttpResponseMessage responseDelete = await client.PutAsJsonAsync($"/api/v1/product/{insertedId}", productDto);
+            HttpResponseMessage responseDelete = await client.PutAsJsonAsync($"/api/v1/product/{inserted.Id}", productDto);
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
@@ -109,12 +108,11 @@ namespace ProductsServiceTest
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(productDto, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
-            
-            var insertedId = await responsePost.Content.ReadAsStringAsync();
-            Assert.NotNull(insertedId);
-            Assert.NotEqual("", insertedId);
 
-            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/product/{insertedId}");
+            var inserted = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
+            Assert.NotNull(inserted);
+
+            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/product/{inserted.Id}");
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
