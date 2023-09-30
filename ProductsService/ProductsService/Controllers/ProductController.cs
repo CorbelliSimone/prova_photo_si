@@ -4,28 +4,40 @@ using ProductsService.Service.Product;
 using ProductsService.Service.Product.Dto;
 using ProductsService.Service.Product.Exceptionz;
 
+using System;
+using System.Threading.Tasks;
+
 namespace ProductsService.Controllers
 {
+    /// <summary>
+    /// Controller per la gestione dei prodotti.
+    /// </summary>
     [Route("api/v1/product")]
     [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _categoryService;
 
-        public ProductController
-        (
-            IProductService categoryService
-        )
+        public ProductController(IProductService categoryService)
         {
             _categoryService = categoryService;
         }
 
+        /// <summary>
+        /// Recupera tutti i prodotti.
+        /// </summary>
+        /// <returns>Una lista di prodotti.</returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             return Ok(await _categoryService.GetAsync());
         }
 
+        /// <summary>
+        /// Recupera un prodotto tramite ID.
+        /// </summary>
+        /// <param name="id">L'ID del prodotto da recuperare.</param>
+        /// <returns>Il prodotto con l'ID specificato.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -38,6 +50,11 @@ namespace ProductsService.Controllers
             return productDto == null ? NoContent() : Ok(productDto);
         }
 
+        /// <summary>
+        /// Aggiunge un nuovo prodotto.
+        /// </summary>
+        /// <param name="productDto">Il prodotto da aggiungere.</param>
+        /// <returns>Il prodotto aggiunto.</returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProductDto productDto)
         {
@@ -66,6 +83,12 @@ namespace ProductsService.Controllers
             }
         }
 
+        /// <summary>
+        /// Aggiorna un prodotto tramite ID.
+        /// </summary>
+        /// <param name="id">L'ID del prodotto da aggiornare.</param>
+        /// <param name="productDto">Il prodotto con le modifiche.</param>
+        /// <returns>Messaggio di conferma dell'aggiornamento.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] ProductDto productDto)
         {
@@ -94,6 +117,11 @@ namespace ProductsService.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un prodotto tramite ID.
+        /// </summary>
+        /// <param name="id">L'ID del prodotto da eliminare.</param>
+        /// <returns>Messaggio di conferma dell'eliminazione.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

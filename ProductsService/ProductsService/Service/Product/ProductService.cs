@@ -5,38 +5,59 @@ using ProductsService.Repository.Product;
 using ProductsService.Service.Product.Dto;
 using ProductsService.Service.Product.Exceptionz;
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace ProductsService.Service.Product
 {
+    /// <summary>
+    /// Implementazione del servizio per la gestione dei prodotti.
+    /// </summary>
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public ProductService
-        (
-            IProductRepository productRepository,
-            ICategoryRepository categoryRepository,
-            IMapper mapper
-        )
+        /// <summary>
+        /// Crea una nuova istanza del servizio ProductService.
+        /// </summary>
+        /// <param name="productRepository">Repository dei prodotti.</param>
+        /// <param name="categoryRepository">Repository delle categorie.</param>
+        /// <param name="mapper">Oggetto Mapper per il mapping degli oggetti.</param>
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
-            this._productRepository = productRepository;
+            _productRepository = productRepository;
             _categoryRepository = categoryRepository;
-            this._mapper = mapper;
+            _mapper = mapper;
         }
 
+        /// <summary>
+        /// Ottiene tutti i prodotti in modo asincrono.
+        /// </summary>
+        /// <returns>Una lista di tutti i prodotti.</returns>
         public async Task<List<ProductDto>> GetAsync()
         {
             var allProducts = await _productRepository.GetAsync();
             return _mapper.Map<List<ProductDto>>(allProducts);
         }
 
+        /// <summary>
+        /// Ottiene un prodotto per ID in modo asincrono.
+        /// </summary>
+        /// <param name="id">L'ID del prodotto da ottenere.</param>
+        /// <returns>Il prodotto con l'ID specificato.</returns>
         public async Task<ProductDto> GetAsync(int id)
         {
             var product = await _productRepository.GetAsync(id);
             return _mapper.Map<ProductDto>(product);
         }
 
+        /// <summary>
+        /// Aggiunge un nuovo prodotto in modo asincrono.
+        /// </summary>
+        /// <param name="productDto">DTO del prodotto da aggiungere.</param>
+        /// <returns>Il DTO del prodotto aggiunto.</returns>
         public async Task<ProductDto> AddAsync(ProductDto productDto)
         {
             var existsCategory = await _categoryRepository.GetAsync(productDto.CategoryId) != null;
@@ -51,6 +72,11 @@ namespace ProductsService.Service.Product
             return productDto;
         }
 
+        /// <summary>
+        /// Elimina un prodotto in modo asincrono.
+        /// </summary>
+        /// <param name="id">L'ID del prodotto da eliminare.</param>
+        /// <returns>Task completato.</returns>
         public async Task DeleteAsync(int id)
         {
             var productToDelete = await _productRepository.GetAsync(id);
@@ -62,6 +88,12 @@ namespace ProductsService.Service.Product
             await _productRepository.DeleteAsync(id);
         }
 
+        /// <summary>
+        /// Aggiorna un prodotto in modo asincrono.
+        /// </summary>
+        /// <param name="id">L'ID del prodotto da aggiornare.</param>
+        /// <param name="productDto">DTO del prodotto aggiornato.</param>
+        /// <returns>Il numero di prodotti aggiornati.</returns>
         public async Task<int> UpdateAsync(int id, ProductDto productDto)
         {
             var existsCategory = await _categoryRepository.GetAsync(productDto.CategoryId) != null;
