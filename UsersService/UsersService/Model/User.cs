@@ -32,11 +32,5 @@ namespace UsersService.Model
         /// </summary>
         [Column("username"), Required]
         public string Username { get; set; }
-
-        /// <summary>
-        /// Ottiene o imposta l'identificatore dell'indirizzo associato all'utente, se presente.
-        /// </summary>
-        [Column("address_id")]
-        public int? AddressId { get; set; }
     }
 }

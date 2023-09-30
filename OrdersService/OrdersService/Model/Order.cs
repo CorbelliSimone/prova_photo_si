@@ -33,6 +33,9 @@ namespace OrdersService.Model
         [Column("user_id"), Required]
         public int UserId { get; set; }
 
+        [Column("address_id"), Required]
+        public int AddressId { get; set; }
+
         /// <summary>
         /// Prodotti associati a questo ordine.
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -19,7 +18,8 @@ namespace OrdersService.Migrations
                     order_number = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     order_name = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<int>(type: "integer", nullable: false)
+                    user_id = table.Column<int>(type: "integer", nullable: false),
+                    address_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -128,11 +128,6 @@ namespace AddressBooksServiceTest
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
-        private Task<HttpResponseMessage> Post(AddressBookDto addressBook, HttpClient client)
-        {
-            return client.PostAsJsonAsync("/api/v1/address-book", addressBook);
-        }
-
         [Fact]
         public async Task Get()
         {

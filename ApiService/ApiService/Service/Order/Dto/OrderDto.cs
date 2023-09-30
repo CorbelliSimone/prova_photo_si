@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public int AddressId { get; set; }
         public string OrderName { get; set; }
         public List<ProductDto> Products { get; set; }
     }

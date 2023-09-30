@@ -1,5 +1,4 @@
-﻿using ApiService.Service.AddressBook.Httpz;
-using ApiService.Service.User.Dto;
+﻿using ApiService.Service.User.Dto;
 using ApiService.Service.User.Exceptionz;
 using ApiService.Service.User.Httpz;
 
@@ -8,27 +7,13 @@ namespace ApiService.Service.User
     public class UserService : IUserService
     {
         private readonly IUserHttpClient _userHttpClient;
-        private readonly IAddressBookHttpClient _addressBookHttpClient;
 
         public UserService
         (
-            IUserHttpClient userHttpClient,
-            IAddressBookHttpClient addressBookHttpClient
+            IUserHttpClient userHttpClient
         )
         {
             _userHttpClient = userHttpClient;
-            _addressBookHttpClient = addressBookHttpClient;
-        }
-
-        public Task<object> UpdateAddressAsync(int addressId, int id)
-        {
-            var address = _addressBookHttpClient.Get<object>($"{addressId}");
-            if (address == null)
-            {
-                throw new UserException($"AddressBook {addressId} non esistente");
-            }
-
-            return _userHttpClient.UpdateAddressId(id, addressId);
         }
 
         public Task<List<UserDto>> GetAsync()
@@ -51,18 +36,9 @@ namespace ApiService.Service.User
             return _userHttpClient.Get<UserDto>($"{id}");
         }
 
-        public async Task<UserDto> AddAsync(UserDto user)
+        public Task<UserDto> AddAsync(UserDto user)
         {
-            if (user.AddressId.HasValue)
-            {
-                var addressBook = await _addressBookHttpClient.Get<object>($"{user.AddressId}");
-                if (addressBook == null)
-                {
-                    throw new UserException($"Non posso creare l'utente per indirizzo {user.AddressId} non esistente");
-                }
-            }
-
-            return await _userHttpClient.Post<UserDto>(string.Empty, user);
+            return _userHttpClient.Post<UserDto>(string.Empty, user);
         }
 
         public Task<bool> DeleteAsync(int id)

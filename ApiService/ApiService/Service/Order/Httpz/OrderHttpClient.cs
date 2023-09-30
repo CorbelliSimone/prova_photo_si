@@ -9,6 +9,11 @@ namespace ApiService.Service.Order.Httpz
         {
         }
 
+        public Task<List<OrderDto>> GetByAddressIdAsync(int id)
+        {
+            return Get<List<OrderDto>>($"address/{id}");
+        }
+
         public Task<List<OrderDto>> GetByProductIdAsync(int id)
         {
             return Get<List<OrderDto>>($"product/{id}");

@@ -25,17 +25,6 @@ namespace UsersService.Controllers
             this._userService = userService;
         }
 
-        [HttpGet("address/{addressId}")]
-        public async Task<IActionResult> GetByAddressId(int addressId)
-        {
-            if(addressId < 1)
-            {
-                return BadRequest($"AddressId {addressId} non valido");
-            }
-
-            return Ok(await _userService.GetByAddressIdAsync(addressId));
-        }
-
         /// <summary>
         /// Ottiene tutti gli utenti.
         /// </summary>
@@ -76,47 +65,6 @@ namespace UsersService.Controllers
             try
             {
                 var createdResource = await _userService.AddAsync(userDto);
-                return Created("", createdResource);
-            }
-            catch (UserException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e);
-            }
-        }
-
-        /// <summary>
-        /// Modifica l'indirizzo associato a un utente specificato.
-        /// </summary>
-        /// <param name="id">ID dell'utente.</param>
-        /// <param name="addressId">ID dell'indirizzo da associare all'utente.</param>
-        /// <returns>
-        /// Risposta HTTP che indica l'esito dell'operazione.
-        /// </returns>
-        [HttpPut("address/{id}/{addressId}")]
-        public async Task<IActionResult> UpdateAddressAsync(int id, int? addressId)
-        {
-            if (id < 1)
-            {
-                return BadRequest($"Utente {id} non esistente");
-            }
-
-            if (addressId == 0)
-            {
-                return BadRequest($"AddressId {addressId} non valido");
-            }
-
-            if (addressId == -1)
-            {
-                addressId = null;
-            }
-
-            try
-            {
-                var createdResource = await _userService.UpdateAddressAsync(id, addressId);
                 return Created("", createdResource);
             }
             catch (UserException e)

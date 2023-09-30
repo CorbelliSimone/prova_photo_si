@@ -29,6 +29,8 @@
         /// ID dell'utente associato all'ordine.
         /// </summary>
         public int UserId { get; set; }
+
+        public int AddressId { get; set; }
     }
 
     /// <summary>

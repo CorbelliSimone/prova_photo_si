@@ -35,6 +35,17 @@ namespace OrdersService.Controllers
             return Ok(await _orderService.GetByProductIdAsync(productId));
         }
 
+        [HttpGet("address/{addressId}")]
+        public async Task<IActionResult> GetByAddressId(int addressId)
+        {
+            if (addressId < 1)
+            {
+                return BadRequest($"AddressId {addressId} non valido");
+            }
+
+            return Ok(await _orderService.GetByAddressIdAsync(addressId));
+        }
+
         /// <summary>
         /// Restituisce tutti gli ordini.
         /// </summary>

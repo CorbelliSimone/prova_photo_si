@@ -1,4 +1,5 @@
-﻿using ApiService.Service.Order.Dto;
+﻿using ApiService.Service.AddressBook.Httpz;
+using ApiService.Service.Order.Dto;
 using ApiService.Service.Order.Exceptionz;
 using ApiService.Service.Order.Httpz;
 using ApiService.Service.Product.Httpz;
@@ -9,15 +10,18 @@ namespace ApiService.Service.Order
     {
         private readonly IOrderHttpClient _orderHttpClient;
         private readonly IProductHttpClient _productHttpClient;
+        private readonly IAddressBookHttpClient _addressBookHttpClient;
 
         public OrderService
         (
             IOrderHttpClient orderHttpClient,
-            IProductHttpClient productHttpClient
+            IProductHttpClient productHttpClient,
+            IAddressBookHttpClient addressBookHttpClient
         )
         {
             _orderHttpClient = orderHttpClient;
             _productHttpClient = productHttpClient;
+            _addressBookHttpClient = addressBookHttpClient;
         }
 
         public Task<bool> DeleteAsync(int id)
@@ -25,14 +29,14 @@ namespace ApiService.Service.Order
             return _orderHttpClient.Delete($"{id}");
         }
 
-        public Task<object> GetAsync(int id)
+        public Task<OrderDto> GetAsync(int id)
         {
-            return _orderHttpClient.Get<object>($"{id}");
+            return _orderHttpClient.Get<OrderDto>($"{id}");
         }
 
-        public Task<List<object>> GetAsync()
+        public Task<List<OrderDto>> GetAsync()
         {
-            return _orderHttpClient.Get<List<object>>(string.Empty);
+            return _orderHttpClient.Get<List<OrderDto>>(string.Empty);
         }
 
         public async Task<object> PlaceOrder(OrderDto orderDto)
@@ -44,6 +48,13 @@ namespace ApiService.Service.Order
                 {
                     throw new OrderException($"Prodotto {product.Id} non esistente");
                 }
+            }
+
+            // Controllare che AddressId esista veramente
+            var findedAddress = await _addressBookHttpClient.Get<object>($"{orderDto.AddressId}");
+            if (findedAddress == null)
+            {
+                throw new OrderException($"Indirizzo {orderDto.AddressId} non esistente");
             }
 
             return await _orderHttpClient.Post<object>(string.Empty, orderDto);

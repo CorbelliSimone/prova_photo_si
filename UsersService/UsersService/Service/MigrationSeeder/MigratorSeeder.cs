@@ -39,8 +39,8 @@ namespace UsersService.Service.MigrationSeeder
             {
                 var users = new List<Model.User>
                 {
-                    new Model.User { FirstName = "Nome1", Username = "Nome.Cognome1", LastName = "Cognome1", AddressId = 1 },
-                    new Model.User { FirstName = "Nome2", Username = "Nome.Cognome2", LastName = "Cognome2", AddressId = 1 }
+                    new Model.User { FirstName = "Nome1", Username = "Nome.Cognome1", LastName = "Cognome1" },
+                    new Model.User { FirstName = "Nome2", Username = "Nome.Cognome2", LastName = "Cognome2" }
                 };
 
                 await _context.Users.AddRangeAsync(users);

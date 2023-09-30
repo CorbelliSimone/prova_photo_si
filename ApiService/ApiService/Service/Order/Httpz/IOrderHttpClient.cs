@@ -6,5 +6,6 @@ namespace ApiService.Service.Order.Httpz
     public interface IOrderHttpClient : IBaseHttpClient
     {
         Task<List<OrderDto>> GetByProductIdAsync(int id);
+        Task<List<OrderDto>> GetByAddressIdAsync(int id);
     }
 }

@@ -91,33 +91,6 @@ namespace UsersService.Service.User
             return _mapper.Map<List<UserDto>>(user);
         }
 
-        public async Task<List<UserDto>> GetByAddressIdAsync(int addressId)
-        {
-            var users = await _userRepository.GetByAddressIdAsync(addressId);
-            return _mapper.Map<List<UserDto>>(users);
-        }
-
-        /// <summary>
-        /// Aggiorna l'indirizzo di un utente nel sistema.
-        /// </summary>
-        /// <param name="id">L'identificatore univoco dell'utente da aggiornare.</param>
-        /// <param name="addressId">L'identificatore dell'indirizzo da associare all'utente.</param>
-        /// <returns>
-        /// Restituisce un intero che rappresenta lo stato dell'aggiornamento dell'indirizzo dell'utente.
-        /// </returns>
-        /// <exception cref="UserException">Eccezione generata se l'utente non è presente nel sistema.</exception>
-        public async Task<int> UpdateAddressAsync(int id, int? addressId)
-        {
-            var user = await _userRepository.GetAsync(id);
-            if (user == null)
-            {
-                throw new UserException($"Utente non esistente {id}");
-            }
-
-            user.AddressId = addressId;
-            return await _userRepository.SaveAsync();
-        }
-
         /// <summary>
         /// Aggiorna le informazioni di un utente nel sistema.
         /// </summary>

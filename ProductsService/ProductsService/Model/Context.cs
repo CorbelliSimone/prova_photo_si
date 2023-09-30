@@ -35,10 +35,6 @@ namespace ProductsService.Model
                 .HasOne(x => x.Category)
                 .WithMany(x => x.Products)
                 .HasForeignKey(x => x.CategoryId);
-
-            // Altre configurazioni delle entità possono essere aggiunte qui.
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

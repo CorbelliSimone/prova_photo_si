@@ -23,7 +23,7 @@ Tutti i servizi sono stati creati con:
 
 ## ApiService (Api Gateway) <a name="ApiService"></a>
 Servizio di Api Gateway che si occupa di contattare tutti i microservizi, espone delle api REST.
-Il servizio prevede un controller **UserController** con cui simulare la **registrazione utente** e il **login utente**, una volta effettuato il login, e' possibile, semrpe tramite **UserController** associare un indirizzo all'utente, e' poi possibile piazzare un ordine tramite **OrderController** passandogli **Nome ordine** e **lista degli id degli ordini con le quantita'**.
+Il servizio prevede un controller **UserController** con cui simulare la **registrazione utente** e il **login utente**, e' poi possibile piazzare un ordine tramite **OrderController** passandogli **Nome ordine**, **Id indirizzo** e **lista degli id degli ordini con le quantita'**.
 Sono comunque disponibili tutti i controller per contattare i relativi microservizi ed ottenere/aggiungere/modificare **Utenti**, **Prodotti**, **Indirizzi** e **Ordini**.
 Di default parte sulla porta **9000**, e' comunque possibile modificarla cambiandola nel file **launchSettings.json**.
 I file di appsettings.json e appsettings.Development.json sono strutturati nel seguente modo:

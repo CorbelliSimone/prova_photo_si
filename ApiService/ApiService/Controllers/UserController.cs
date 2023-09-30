@@ -105,29 +105,5 @@ namespace ApiService.Controllers
 
             return Ok(await _userService.UpdateAsync(id, userDto));
         }
-
-        // Modifica l'indirizzo
-        [HttpPut("address/{addressId}")]
-        public async Task<IActionResult> AddAddressAsync(int addressId)
-        {
-            if (_userLoggedHandler.GetUserLogged() == null)
-            {
-                return Unauthorized("Prima di associare un indirizzo bisogna effettuare il login api/v1/user/");
-            }
-
-            try
-            {
-                var insertedAddressId = await _userService.UpdateAddressAsync(addressId, _userLoggedHandler.GetUserLogged().Id);
-                return Created("", insertedAddressId);
-            }
-            catch (UserException e)
-            {
-                return BadRequest($"Errore aggiornamento AddressBook {e.Message}");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e.Message);
-            }
-        }
     }
 }

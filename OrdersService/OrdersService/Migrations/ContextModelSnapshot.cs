@@ -30,6 +30,10 @@ namespace OrdersService.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AddressId")
+                        .HasColumnType("integer")
+                        .HasColumnName("address_id");
+
                     b.Property<string>("OrderName")
                         .IsRequired()
                         .HasColumnType("text")

@@ -118,7 +118,7 @@ namespace AddressBooksService.Controllers
             }
             catch (AddressBookException e)
             {
-                return BadRequest($"Errore eliminazione userbook {id} {e.Message}");
+                return BadRequest($"Errore eliminazione addressbook {id} {e.Message}");
             }
             catch (Exception e)
             {

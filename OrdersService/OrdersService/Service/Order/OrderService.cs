@@ -83,7 +83,8 @@ namespace OrdersService.Service.Order
             {
                 OrderProducts = orderProducts,
                 UserId = orderDto.UserId,
-                OrderName = orderDto.OrderName
+                OrderName = orderDto.OrderName,
+                AddressId = orderDto.AddressId
             });
 
             return _mapper.Map<OrderDto>(inserted);
@@ -92,6 +93,12 @@ namespace OrdersService.Service.Order
         public async Task<List<OrderDto>> GetByProductIdAsync(int productId)
         {
             var foundedOrders = await _orderRepository.GetByProductIdAsync(productId);
+            return _mapper.Map<List<OrderDto>>(foundedOrders);
+        }
+
+        public async Task<List<OrderDto>> GetByAddressIdAsync(int addressId)
+        {
+            var foundedOrders = await _orderRepository.GetByAddressIdAsync(addressId);
             return _mapper.Map<List<OrderDto>>(foundedOrders);
         }
     }

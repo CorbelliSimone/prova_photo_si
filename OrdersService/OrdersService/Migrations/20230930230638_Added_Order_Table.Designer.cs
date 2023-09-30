@@ -11,7 +11,7 @@ using OrdersService.Model;
 namespace OrdersService.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230929230439_Added_Order_Table")]
+    [Migration("20230930230638_Added_Order_Table")]
     partial class Added_Order_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,10 @@ namespace OrdersService.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("integer")
+                        .HasColumnName("address_id");
 
                     b.Property<string>("OrderName")
                         .IsRequired()

@@ -34,5 +34,6 @@ namespace OrdersService.Service.Order
         /// <returns>Task che restituisce l'oggetto OrderDto aggiunto.</returns>
         Task<OrderDto> AddAsync(OrderDto orderDto);
         Task<List<OrderDto>> GetByProductIdAsync(int productId);
+        Task<List<OrderDto>> GetByAddressIdAsync(int addressId);
     }
 }

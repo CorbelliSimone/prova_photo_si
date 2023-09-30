@@ -24,10 +24,5 @@
         /// Ottiene o imposta il nome utente dell'utente.
         /// </summary>
         public string Username { get; set; }
-
-        /// <summary>
-        /// Ottiene o imposta l'identificatore dell'indirizzo associato all'utente.
-        /// </summary>
-        public int? AddressId { get; set; }
     }
 }

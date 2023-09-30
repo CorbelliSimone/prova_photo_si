@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace UsersService.Migrations
 {
-    public partial class Added_Table_User : Migration
+    public partial class Added_User_Table : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,8 +17,7 @@ namespace UsersService.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     first_name = table.Column<string>(type: "text", nullable: false),
                     last_name = table.Column<string>(type: "text", nullable: false),
-                    username = table.Column<string>(type: "text", nullable: false),
-                    address_id = table.Column<int>(type: "integer", nullable: true)
+                    username = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

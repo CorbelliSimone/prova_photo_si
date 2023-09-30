@@ -48,14 +48,15 @@ namespace OrdersService.Service.Seeder
                     {
                         ProductId = 2,
                         Quantity = 5
-                    }
+                    },
                 };
 
                 var order = new Model.Order()
                 {
                     OrderProducts = orderProducts,
                     OrderName = "Primo ordine",
-                    UserId = 1
+                    UserId = 1,
+                    AddressId = 1
                 };
 
                 await _context.AddAsync(order);

@@ -39,14 +39,14 @@ namespace ApiService.Controllers
                 return Unauthorized("Prima di piazzare un ordine bisogna fare il login api/v1/user");
             }
 
-            if (!_userLoggedHandler.GetUserLogged().AddressId.HasValue)
-            {
-                return BadRequest("Prima di piazzare un'ordine bisogna associare un indirizzo ad un utente api/v1/user/address/{addressId}");
-            }
-
             if (orderDto.Products == null || orderDto.Products.Count == 0)
             {
                 return BadRequest("Nessun prodotto associato all'ordine");
+            }
+
+            if (orderDto.AddressId < 1)
+            {
+                return BadRequest($"Id {orderDto.AddressId} indirizzo non valido");
             }
 
             try

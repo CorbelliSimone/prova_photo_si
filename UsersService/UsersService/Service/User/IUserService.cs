@@ -21,14 +21,6 @@ namespace UsersService.Service.User
         Task DeleteAsync(int id);
 
         /// <summary>
-        /// Aggiorna l'indirizzo di un utente.
-        /// </summary>
-        /// <param name="id">L'ID dell'utente da aggiornare.</param>
-        /// <param name="addressId">L'ID dell'indirizzo da associare all'utente.</param>
-        /// <returns>L'esito dell'aggiornamento.</returns>
-        Task<int> UpdateAddressAsync(int id, int? addressId);
-
-        /// <summary>
         /// Ottiene un utente in base all'ID.
         /// </summary>
         /// <param name="id">L'ID dell'utente da ottenere.</param>
@@ -48,6 +40,5 @@ namespace UsersService.Service.User
         /// <param name="userDto">Il DTO dell'utente con le informazioni aggiornate.</param>
         /// <returns>L'esito dell'aggiornamento.</returns>
         Task<int> UpdateAsync(int id, UserDto userDto);
-        Task<List<UserDto>> GetByAddressIdAsync(int addressId);
     }
 }

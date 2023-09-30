@@ -11,6 +11,5 @@
         /// <param name="username">Nome utente dell'utente da cercare.</param>
         /// <returns>Task asincrono che restituisce l'utente trovato, null se non trovato.</returns>
         Task<Model.User> FindByUsernameAsync(string username);
-        Task<List<Model.User>> GetByAddressIdAsync(int addressId);
     }
 }
