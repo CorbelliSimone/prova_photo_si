@@ -18,8 +18,15 @@ Tutti i servizi sono stati creati con:
 #### - [Products Service](#ProductsService)
 #### - [Users Service](#UsersService)
 
-## ApiService (Api Gateway)
-<a name="ApiService"></a>
+## ApiService (Api Gateway) <a name="ApiService"></a>
+Servizio di Api Gateway che si occupa di contattare tutti i microservizi, espone delle api REST. Di default parte sulla porta 9000, e' comunque possibile modificarla cambiandola nel file launchSettings.json. Di default crea il database con nome order. Il file di appsettings.json e appsettings.Development.json sono strutturati nel seguente modo:
+
+| Proprieta'            | Tipo   | Default                    | Descrizione                      |
+|-----------------------|--------|----------------------------|----------------------------------|
+| ProductServiceUrl     | string | http://localhost:9001/api/ | Url del microserizio Product     |
+| AddressBookServiceUrl | string | http://localhost:9002/api/ | Url del microserizio AddressBook |
+| OrderServiceUrl       | string | http://localhost:9003/api/ | Url del microserizio Order       |
+| UserServiceUrl        | string | http://localhost:9004/api/ | Url del microserizio User        |
 
 ## Orders Service <a name="OrdersService"></a>
 Servizio che si occupa di piazzare gli ordini, espone delle api REST richiamate dall'api gateway. Di default parte sulla porta **9003**, e' comunque possibile modificarla cambiandola nel file **launchSettings.json**. Di default crea il database con nome **order**. Il file di **appsettings.json** e **appsettings.Development.json** sono strutturati nel seguente modo:
