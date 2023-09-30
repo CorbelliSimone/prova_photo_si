@@ -1,8 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using UsersService.Model;
-
-namespace UsersService.Repository.User
+﻿namespace UsersService.Repository.User
 {
     /// <summary>
     /// Interfaccia per il repository degli utenti.

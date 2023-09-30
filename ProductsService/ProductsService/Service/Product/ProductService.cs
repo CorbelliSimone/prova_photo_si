@@ -5,9 +5,6 @@ using ProductsService.Repository.Product;
 using ProductsService.Service.Product.Dto;
 using ProductsService.Service.Product.Exceptionz;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace ProductsService.Service.Product
 {
     /// <summary>

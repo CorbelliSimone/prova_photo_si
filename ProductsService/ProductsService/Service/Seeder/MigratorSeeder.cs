@@ -2,9 +2,6 @@
 
 using ProductsService.Model;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace ProductsService.Service.Seeder
 {
     /// <summary>

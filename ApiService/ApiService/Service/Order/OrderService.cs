@@ -1,6 +1,6 @@
-﻿using ApiService.Controllers;
-using ApiService.Service.Order.Dto;
+﻿using ApiService.Service.Order.Dto;
 using ApiService.Service.Order.Httpz;
+using ApiService.Service.User.Dto;
 
 namespace ApiService.Service.Order
 {
@@ -13,7 +13,7 @@ namespace ApiService.Service.Order
             _orderHttpClient = orderHttpClient;
         }
 
-        public Task<int> PlaceOrder(OrderDto orderDto, UserLogged userLogged)
+        public Task<int> PlaceOrder(OrderDto orderDto, UserDto userLogged)
         {
             return _orderHttpClient.PlaceOrder(orderDto, userLogged.Id);
         }

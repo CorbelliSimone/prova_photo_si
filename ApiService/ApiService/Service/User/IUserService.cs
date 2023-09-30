@@ -1,11 +1,11 @@
-﻿using ApiService.Controllers;
+﻿using ApiService.Service.User.Dto;
 
 namespace ApiService.Service.User
 {
     public interface IUserService
     {
         Task<int> AddAddressAsync(int addressId, int id);
-        Task<UserLogged> Login(int id);
-        Task<UserLogged> Register(UserLogged user);
+        Task<UserDto> Login(int id);
+        Task<UserDto> Register(UserDto user);
     }
 }

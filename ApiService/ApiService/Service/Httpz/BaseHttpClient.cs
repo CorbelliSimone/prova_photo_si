@@ -1,6 +1,4 @@
-﻿using ApiService.Controllers;
-
-namespace ApiService.Service.Httpz
+﻿namespace ApiService.Service.Httpz
 {
     public abstract class BaseHttpClient
     {

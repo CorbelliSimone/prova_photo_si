@@ -4,9 +4,6 @@ using AddressBooksService.Service.AddressBook.Exceptionz;
 
 using AutoMapper;
 
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-
 namespace AddressBooksService.Service.AddressBook
 {
     /// <summary>

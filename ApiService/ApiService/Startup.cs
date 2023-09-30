@@ -1,15 +1,13 @@
-﻿using ApiService.Controllers;
-using ApiService.Service.AddressBook;
+﻿using ApiService.Service.AddressBook;
 using ApiService.Service.AddressBook.Httpz;
 using ApiService.Service.Order;
 using ApiService.Service.Order.Httpz;
 using ApiService.Service.Product;
 using ApiService.Service.Product.Httpz;
 using ApiService.Service.User;
+using ApiService.Service.User.Cache;
 using ApiService.Service.User.Httpz;
 using ApiService.Settings;
-
-using Microsoft.Extensions.Configuration;
 
 namespace ApiService
 {

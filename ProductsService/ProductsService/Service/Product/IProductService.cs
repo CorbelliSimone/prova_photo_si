@@ -1,8 +1,5 @@
 ﻿using ProductsService.Service.Product.Dto;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace ProductsService.Service.Product
 {
     /// <summary>

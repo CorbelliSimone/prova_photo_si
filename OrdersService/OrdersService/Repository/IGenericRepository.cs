@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace OrdersService.Repository
+﻿namespace OrdersService.Repository
 {
     /// <summary>
     /// Interfaccia per un repository generico che gestisce le operazioni CRUD per le entità.

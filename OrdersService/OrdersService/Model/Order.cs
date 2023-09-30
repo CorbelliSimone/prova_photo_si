@@ -1,6 +1,4 @@
-﻿using AutoMapper.Configuration.Conventions;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrdersService.Model

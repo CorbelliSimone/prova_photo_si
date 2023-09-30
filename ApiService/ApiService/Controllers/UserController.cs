@@ -1,5 +1,7 @@
 ﻿using ApiService.Service.Httpz;
 using ApiService.Service.User;
+using ApiService.Service.User.Cache;
+using ApiService.Service.User.Dto;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,8 +22,9 @@ namespace ApiService.Controllers
             _userService = userService;
         }
 
+        // Simula la registrazione di un utente
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync(UserLogged userLogged)
+        public async Task<IActionResult> RegisterAsync(UserDto userLogged)
         {
             if (userLogged == null)
             {
@@ -43,6 +46,7 @@ namespace ApiService.Controllers
             }
         }
 
+        // Simula il login
         [HttpPost("{id}")]
         public async Task<IActionResult> LoginAsync(int id)
         {
@@ -54,7 +58,7 @@ namespace ApiService.Controllers
             try
             {
                 var userForLogged = await _userService.Login(id);
-                base._userLoggedHandler.SetUserLogged(userForLogged);
+                _userLoggedHandler.SetUserLogged(userForLogged);
                 return Ok($"Utente {id} loggato con successo");
             }
             catch (BaseHttpClientException e)
@@ -70,14 +74,14 @@ namespace ApiService.Controllers
         [HttpPost("address/{addressId}")]
         public async Task<IActionResult> AddAddressAsync(int addressId)
         {
-            if (base._userLoggedHandler.UserLogged == null)
+            if (_userLoggedHandler.UserLogged == null)
             {
-                return Unauthorized("Prima di associare un indirizzo bisogna fare il login");
+                return Unauthorized("Prima di associare un indirizzo bisogna effettuare il login");
             }
 
             try
             {
-                var insertedAddressId = await _userService.AddAddressAsync(addressId, base._userLoggedHandler.UserLogged.Id);
+                var insertedAddressId = await _userService.AddAddressAsync(addressId, _userLoggedHandler.UserLogged.Id);
                 return Created("", insertedAddressId);
             }
             catch (Exception e)

@@ -1,5 +1,3 @@
-using UsersService;
-
 namespace UsersService
 {
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using ApiService.Service.AddressBook;
+using ApiService.Service.User.Cache;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace ApiService.Controllers
             UserLoggedHandler userLoggedHandler
         ) : base(userLoggedHandler)
         {
-            this._addressBookService = addressBookService;
+            _addressBookService = addressBookService;
         }
 
         [HttpGet]

@@ -130,7 +130,7 @@ namespace UsersService.Service.User
             }
 
             user.FirstName = userDto.FirstName;
-            user.LastName = userDto.LastName ;
+            user.LastName = userDto.LastName;
             user.Username = userDto.Username;
 
             return await _userRepository.SaveAsync();

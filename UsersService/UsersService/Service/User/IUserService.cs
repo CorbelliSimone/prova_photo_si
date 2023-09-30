@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using UsersService.Service.User.Dto;
+﻿using UsersService.Service.User.Dto;
 
 namespace UsersService.Service.User
 {

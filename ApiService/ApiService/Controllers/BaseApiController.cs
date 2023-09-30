@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ApiService.Service.User.Cache;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiService.Controllers
 {

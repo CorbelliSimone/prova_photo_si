@@ -1,6 +1,7 @@
 ﻿using ApiService.Service.Httpz;
 using ApiService.Service.Product;
 using ApiService.Service.Product.Dto;
+using ApiService.Service.User.Cache;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace ApiService.Controllers
             UserLoggedHandler userLoggedHandler
         ) : base(userLoggedHandler)
         {
-            this._productService = productService;
+            _productService = productService;
         }
 
         [HttpGet]

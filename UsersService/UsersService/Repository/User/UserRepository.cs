@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using System.Threading.Tasks;
-
 using UsersService.Model;
 
 namespace UsersService.Repository.User

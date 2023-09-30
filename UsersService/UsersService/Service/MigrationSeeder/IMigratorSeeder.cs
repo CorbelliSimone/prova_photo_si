@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace UsersService.Service.MigrationSeeder
+﻿namespace UsersService.Service.MigrationSeeder
 {
     /// <summary>
     /// Interfaccia per l'applicazione delle migrazioni e il seeding del database.

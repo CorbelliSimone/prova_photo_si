@@ -1,13 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
 using ProductsService.Model;
 using ProductsService.Repository.Category;
 using ProductsService.Repository.Product;
 using ProductsService.Service.Product;
 using ProductsService.Service.Seeder;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading.Tasks;
 
 namespace ProductsService
 {

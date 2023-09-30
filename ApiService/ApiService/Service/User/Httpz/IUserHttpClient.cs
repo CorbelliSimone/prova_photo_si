@@ -1,11 +1,11 @@
-﻿using ApiService.Controllers;
+﻿using ApiService.Service.User.Dto;
 
 namespace ApiService.Service.User.Httpz
 {
     public interface IUserHttpClient
     {
-        Task<UserLogged> AddAsync(UserLogged userLogged);
-        Task<UserLogged> GetAsync(int id);
+        Task<UserDto> AddAsync(UserDto userLogged);
+        Task<UserDto> GetAsync(int id);
         Task<int> PutAsync(int id, int addressId);
     }
 }

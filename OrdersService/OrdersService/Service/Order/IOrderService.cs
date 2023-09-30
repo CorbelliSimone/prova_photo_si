@@ -1,8 +1,5 @@
 ﻿using OrdersService.Service.Order.Dto;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace OrdersService.Service.Order
 {
     /// <summary>

@@ -4,9 +4,6 @@ using ProductsService.Service.Product;
 using ProductsService.Service.Product.Dto;
 using ProductsService.Service.Product.Exceptionz;
 
-using System;
-using System.Threading.Tasks;
-
 namespace ProductsService.Controllers
 {
     /// <summary>

@@ -1,16 +1,10 @@
 ﻿using AddressBooksService;
-using AddressBooksService.Model;
 using AddressBooksService.Service.AddressBook.Dto;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xunit;
 
@@ -43,7 +37,7 @@ namespace AddressBooksServiceTest
                         CityId = 1,
                         StreetName = "Nome strada 2",
                         StreetNumber = "Numero strada 2"
-                    } 
+                    }
                 },
                 new object[] {
                     new AddressBookDto() {
@@ -51,7 +45,7 @@ namespace AddressBooksServiceTest
                         CityId = 2,
                         StreetName = "Nome strada 3",
                         StreetNumber = "Numero strada 3"
-                    } 
+                    }
                 },
                 new object[] {
                     new AddressBookDto() {
@@ -126,7 +120,7 @@ namespace AddressBooksServiceTest
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(addressBook, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
-            
+
             var inserted = await responsePost.Content.ReadFromJsonAsync<AddressBookDto>();
             Assert.NotNull(inserted);
 

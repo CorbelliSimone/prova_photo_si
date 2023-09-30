@@ -1,4 +1,4 @@
-﻿using ApiService.Controllers;
+﻿using ApiService.Service.User.Dto;
 using ApiService.Service.User.Httpz;
 
 namespace ApiService.Service.User
@@ -6,7 +6,7 @@ namespace ApiService.Service.User
     public class UserService : IUserService
     {
         private readonly IUserHttpClient _userHttpClient;
-        
+
         public UserService(IUserHttpClient userHttpClient)
         {
             _userHttpClient = userHttpClient;
@@ -17,12 +17,12 @@ namespace ApiService.Service.User
             return _userHttpClient.PutAsync(id, addressId);
         }
 
-        public Task<UserLogged> Login(int id)
+        public Task<UserDto> Login(int id)
         {
             return _userHttpClient.GetAsync(id);
         }
 
-        public Task<UserLogged> Register(UserLogged user)
+        public Task<UserDto> Register(UserDto user)
         {
             return _userHttpClient.AddAsync(user);
         }

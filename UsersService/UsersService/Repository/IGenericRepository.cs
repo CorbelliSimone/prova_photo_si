@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace UsersService.Repository
+﻿namespace UsersService.Repository
 {
     /// <summary>
     /// Interfaccia generica per un repository.

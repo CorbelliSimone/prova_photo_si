@@ -1,8 +1,5 @@
 ﻿using AddressBooksService.Service.AddressBook.Dto;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace AddressBooksService.Service.AddressBook
 {
     /// <summary>

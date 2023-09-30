@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading.Tasks;
+﻿using AddressBooksService.Model;
 using AddressBooksService.Repository.AddressBook;
 using AddressBooksService.Service.AddressBook;
 using AddressBooksService.Service.Seeder;
+
 using Microsoft.EntityFrameworkCore;
-using AddressBooksService.Model;
 
 namespace AddressBooksService
 {

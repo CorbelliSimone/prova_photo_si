@@ -1,5 +1,3 @@
-using ApiService;
-
 namespace ApiService
 {
     public static class Program

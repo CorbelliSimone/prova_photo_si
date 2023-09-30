@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
+
 using OrdersService;
 using OrdersService.Service.Order.Dto;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Json;
 
 using Xunit;
-using OrdersService.Model;
 
 namespace OrdersServiceTest
 {

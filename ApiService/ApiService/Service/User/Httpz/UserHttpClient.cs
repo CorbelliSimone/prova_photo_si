@@ -1,5 +1,5 @@
-﻿using ApiService.Controllers;
-using ApiService.Service.Httpz;
+﻿using ApiService.Service.Httpz;
+using ApiService.Service.User.Dto;
 
 namespace ApiService.Service.User.Httpz
 {
@@ -10,14 +10,14 @@ namespace ApiService.Service.User.Httpz
         {
         }
 
-        public Task<UserLogged> AddAsync(UserLogged userLogged)
+        public Task<UserDto> AddAsync(UserDto userLogged)
         {
-            return base.Post<UserLogged>(string.Empty, userLogged);
+            return base.Post<UserDto>(string.Empty, userLogged);
         }
 
-        public Task<UserLogged> GetAsync(int id)
+        public Task<UserDto> GetAsync(int id)
         {
-            return base.Get<UserLogged>($"{id}");
+            return base.Get<UserDto>($"{id}");
         }
 
         public Task<int> PutAsync(int id, int addressId)

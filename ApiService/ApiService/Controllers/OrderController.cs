@@ -1,5 +1,6 @@
 ﻿using ApiService.Service.Order;
 using ApiService.Service.Order.Dto;
+using ApiService.Service.User.Cache;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,18 +18,18 @@ namespace ApiService.Controllers
             IOrderService orderService
         ) : base(userLoggedHandler)
         {
-            this._orderService = orderService;
+            _orderService = orderService;
         }
 
         [HttpPost]
         public async Task<IActionResult> PlaceOrder([FromBody] OrderDto orderDto)
         {
-            if (base._userLoggedHandler.UserLogged == null)
+            if (_userLoggedHandler.UserLogged == null)
             {
                 return Unauthorized("Prima di piazzare un ordine bisogna fare il login");
             }
 
-            if (!base._userLoggedHandler.UserLogged.AddressId.HasValue)
+            if (!_userLoggedHandler.UserLogged.AddressId.HasValue)
             {
                 return BadRequest("Prima di piazzare un'ordine bisogna associare un indirizzo ad un utente");
             }
@@ -40,7 +41,7 @@ namespace ApiService.Controllers
 
             try
             {
-                var placedOrderId = await _orderService.PlaceOrder(orderDto, base._userLoggedHandler.UserLogged);
+                var placedOrderId = await _orderService.PlaceOrder(orderDto, _userLoggedHandler.UserLogged);
                 return Created("", placedOrderId);
             }
             catch (Exception e)
