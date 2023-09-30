@@ -1,8 +1,6 @@
 ﻿namespace ApiService.Service.User.Dto
 {
     // Simula un utente loggato
-
-
     public class UserDto
     {
         public int Id { get; set; }

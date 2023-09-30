@@ -1,5 +1,4 @@
-﻿using ApiService.Service.Product.Dto;
-using ApiService.Service.Product.Httpz;
+﻿using ApiService.Service.Product.Httpz;
 
 namespace ApiService.Service.Product
 {
@@ -12,14 +11,29 @@ namespace ApiService.Service.Product
             _productHttpClient = productHttpClient;
         }
 
-        public Task<List<ProductDto>> GetAllAsync()
+        public Task<List<object>> GetAsync()
         {
-            return _productHttpClient.GetAllAsync();
+            return _productHttpClient.Get<List<object>>(string.Empty);
         }
 
-        public Task AddAsync(ProductDto productDto)
+        public Task<object> GetAsync(int id)
         {
-            return _productHttpClient.AddAllAsync(productDto);
+            return _productHttpClient.Get<object>($"{id}");
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            return _productHttpClient.Delete($"{id}");
+        }
+
+        public Task<object> AddAsync(object productDto)
+        {
+            return _productHttpClient.Post<object>($"{productDto}", productDto);
+        }
+
+        public Task<object> PutAsync(int id, object productDto)
+        {
+            return _productHttpClient.Put($"{productDto}", productDto);
         }
     }
 }

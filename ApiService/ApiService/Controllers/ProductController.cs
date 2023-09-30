@@ -1,6 +1,5 @@
 ﻿using ApiService.Service.Httpz;
 using ApiService.Service.Product;
-using ApiService.Service.Product.Dto;
 using ApiService.Service.User.Cache;
 
 using Microsoft.AspNetCore.Mvc;
@@ -16,27 +15,54 @@ namespace ApiService.Controllers
         public ProductController
         (
             IProductService productService,
-            UserLoggedHandler userLoggedHandler
+            IUserLoggedHandler userLoggedHandler
         ) : base(userLoggedHandler)
         {
             _productService = productService;
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id) => Ok(await _productService.DeleteAsync(id));
+
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get() => Ok(await _productService.GetAsync());
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id) => Ok(await _productService.GetAsync(id));
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] object productDto)
         {
-            return Ok(await _productService.GetAllAsync());
+            if (productDto == null)
+            {
+                return BadRequest("dati prodotto da modificare arrivati nulli");
+            }
+
+            if (id < 1)
+            {
+                return BadRequest("Id prodotto minore di 1");
+            }
+
+            try
+            {
+                var productResult = await _productService.PutAsync(id, productDto);
+                return Ok(productResult);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ProductDto productDto)
+        public async Task<IActionResult> Post([FromBody] object productDto)
         {
             if (productDto == null)
                 return BadRequest("Oggetto richiesta inserimento prodotto arrivato nullo");
             try
             {
-                await _productService.AddAsync(productDto);
-                return Ok();
+                var insertedProduct = await _productService.AddAsync(productDto);
+                return Ok(insertedProduct);
             }
             catch (BaseHttpClientException e)
             {

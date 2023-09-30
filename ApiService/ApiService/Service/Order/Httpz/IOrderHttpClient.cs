@@ -1,9 +1,8 @@
-﻿using ApiService.Service.Order.Dto;
+﻿using ApiService.Service.Httpz;
 
 namespace ApiService.Service.Order.Httpz
 {
-    public interface IOrderHttpClient
+    public interface IOrderHttpClient : IBaseHttpClient
     {
-        Task<int> PlaceOrder(OrderDto orderDto, int userId);
     }
 }

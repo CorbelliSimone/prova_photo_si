@@ -8,11 +8,14 @@ Tutti i servizi sono stati creati con:
  1. **DOT NET. 6** scaricabile da [qui](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
  2. **PostgreSql 16** scaricabile da [qui](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads). Vengono pero' supportati anche vecchie versione di postgres
  3. **Visual studio 2022**
->  Ogni microservizio al primo avvio si occupa di **creare in automatico** il proprio database ed effettuarne un **seeding**, in piu' per ogni microservizio e' presente un **appsettings.json** e un **appsettings.Development.json** automaticamente usato in fase di debug.
 
 # SERVIZI
 
+## API-GATEWAY
 #### - [ApiService (Api Gateway)](#ApiService)
+
+## MICROSERVIZI
+>  Ogni microservizio e' corredato di test e al primo avvio si occupa di **creare in automatico** il proprio database ed effettuarne un **seeding**, in piu' per ogni microservizio e' presente un **appsettings.json** e un **appsettings.Development.json** automaticamente usato in fase di debug.
 #### - [Orders Service](#OrdersService)
 #### - [AddressBook Service](#AddressBookService)
 #### - [Products Service](#ProductsService)

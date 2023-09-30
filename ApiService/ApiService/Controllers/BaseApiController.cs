@@ -6,9 +6,9 @@ namespace ApiService.Controllers
 {
     public class BaseApiController : ControllerBase
     {
-        protected UserLoggedHandler _userLoggedHandler;
+        protected IUserLoggedHandler _userLoggedHandler;
 
-        public BaseApiController(UserLoggedHandler userLoggedHandler)
+        public BaseApiController(IUserLoggedHandler userLoggedHandler)
         {
             _userLoggedHandler = userLoggedHandler;
         }

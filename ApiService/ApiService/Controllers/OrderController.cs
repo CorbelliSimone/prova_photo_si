@@ -1,5 +1,6 @@
 ﻿using ApiService.Service.Order;
 using ApiService.Service.Order.Dto;
+using ApiService.Service.Order.Exceptionz;
 using ApiService.Service.User.Cache;
 
 using Microsoft.AspNetCore.Mvc;
@@ -14,24 +15,33 @@ namespace ApiService.Controllers
 
         public OrderController
         (
-            UserLoggedHandler userLoggedHandler,
+            IUserLoggedHandler userLoggedHandler,
             IOrderService orderService
         ) : base(userLoggedHandler)
         {
             _orderService = orderService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get() => Ok(await _orderService.GetAsync());
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id) => Ok(await _orderService.GetAsync(id));
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id) => Ok(await _orderService.DeleteAsync(id));
+
         [HttpPost]
         public async Task<IActionResult> PlaceOrder([FromBody] OrderDto orderDto)
         {
-            if (_userLoggedHandler.UserLogged == null)
+            if (_userLoggedHandler.GetUserLogged() == null)
             {
-                return Unauthorized("Prima di piazzare un ordine bisogna fare il login");
+                return Unauthorized("Prima di piazzare un ordine bisogna fare il login api/v1/user");
             }
 
-            if (!_userLoggedHandler.UserLogged.AddressId.HasValue)
+            if (!_userLoggedHandler.GetUserLogged().AddressId.HasValue)
             {
-                return BadRequest("Prima di piazzare un'ordine bisogna associare un indirizzo ad un utente");
+                return BadRequest("Prima di piazzare un'ordine bisogna associare un indirizzo ad un utente api/v1/user/address/{addressId}");
             }
 
             if (orderDto.ProductIds == null || orderDto.ProductIds.Count == 0)
@@ -41,8 +51,12 @@ namespace ApiService.Controllers
 
             try
             {
-                var placedOrderId = await _orderService.PlaceOrder(orderDto, _userLoggedHandler.UserLogged);
-                return Created("", placedOrderId);
+                var placedOrder = await _orderService.PlaceOrder(orderDto, _userLoggedHandler.GetUserLogged());
+                return Created("", placedOrder);
+            }
+            catch (OrderException e)
+            {
+                return BadRequest($"Errore piazzamento ordine {e.Message}");
             }
             catch (Exception e)
             {

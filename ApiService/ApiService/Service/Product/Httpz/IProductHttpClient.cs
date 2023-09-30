@@ -1,10 +1,8 @@
-﻿using ApiService.Service.Product.Dto;
+﻿using ApiService.Service.Httpz;
 
 namespace ApiService.Service.Product.Httpz
 {
-    public interface IProductHttpClient
+    public interface IProductHttpClient : IBaseHttpClient
     {
-        Task<List<ProductDto>> GetAllAsync();
-        Task AddAllAsync(ProductDto productDto);
     }
 }

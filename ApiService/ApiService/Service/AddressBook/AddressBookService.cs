@@ -11,9 +11,29 @@ namespace ApiService.Service.AddressBook
             _addressBookHttpClient = addressBookHttpClient;
         }
 
-        public Task<List<object>> GetAllAsync()
+        public Task<bool> Delete(int id)
         {
-            return _addressBookHttpClient.GetAllAsync();
+            return _addressBookHttpClient.Delete($"{id}");
+        }
+
+        public Task<List<object>> Get()
+        {
+            return _addressBookHttpClient.Get<List<object>>(string.Empty);
+        }
+
+        public Task<object> Get(int id)
+        {
+            return _addressBookHttpClient.Get<object>($"{id}");
+        }
+
+        public Task<object> Post(object addressBookDto)
+        {
+            return _addressBookHttpClient.Post<object>(string.Empty, addressBookDto);
+        }
+
+        public Task<object> Put(int id, object addressBookDto)
+        {
+            return _addressBookHttpClient.Put($"{id}", addressBookDto);
         }
     }
 }

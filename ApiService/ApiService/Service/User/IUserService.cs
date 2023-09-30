@@ -4,8 +4,10 @@ namespace ApiService.Service.User
 {
     public interface IUserService
     {
-        Task<int> AddAddressAsync(int addressId, int id);
-        Task<UserDto> Login(int id);
-        Task<UserDto> Register(UserDto user);
+        Task<object> UpdateAddressAsync(int addressId, int id);
+        Task<bool> DeleteAsync(int id);
+        Task<List<UserDto>> GetAsync();
+        Task<UserDto> GetAsync(int id);
+        Task<UserDto> AddAsync(object user);
     }
 }

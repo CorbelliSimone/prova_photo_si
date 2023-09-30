@@ -24,7 +24,6 @@ namespace ApiService
         {
             _ = _builder.Services.AddControllers();
 
-            //_builder.Services.AddAutoMapper(typeof(Startup));
             ConfigureMyServices();
             ConfigureCache();
 
@@ -36,7 +35,7 @@ namespace ApiService
         private void ConfigureCache()
         {
             _ = _builder.Services
-                .AddSingleton<UserLoggedHandler>()
+                .AddSingleton<IUserLoggedHandler, UserLoggedHandler>()
             ;
         }
 

@@ -2,7 +2,7 @@
 
 namespace ApiService.Service.User.Cache
 {
-    public class UserLoggedHandler
+    public class UserLoggedHandler : IUserLoggedHandler
     {
         public UserDto UserLogged { get; private set; }
 
@@ -10,5 +10,7 @@ namespace ApiService.Service.User.Cache
         {
             UserLogged = userLogged;
         }
+
+        public UserDto GetUserLogged() { return UserLogged; }
     }
 }

@@ -1,7 +1,8 @@
-﻿namespace ApiService.Service.AddressBook.Httpz
+﻿using ApiService.Service.Httpz;
+
+namespace ApiService.Service.AddressBook.Httpz
 {
-    public interface IAddressBookHttpClient
+    public interface IAddressBookHttpClient : IBaseHttpClient
     {
-        Task<List<object>> GetAllAsync();
     }
 }
