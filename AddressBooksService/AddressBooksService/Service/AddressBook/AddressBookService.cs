@@ -23,7 +23,7 @@ namespace AddressBooksService.Service.AddressBook
             this._mapper = mapper;
         }
 
-        public async Task<AddressBookResponseDto> AddAsync(AddressBookResponseDto addressBookDto)
+        public async Task<AddressBookDto> AddAsync(AddressBookDto addressBookDto)
         {
             var addressBook = _mapper.Map<Model.AddressBook>(addressBookDto);
             await _addressBookRepository.AddAsync(addressBook);
@@ -42,19 +42,19 @@ namespace AddressBooksService.Service.AddressBook
             await _addressBookRepository.DeleteAsync(id);
         }
 
-        public async Task<List<AddressBookResponseDto>> GetAsync()
+        public async Task<List<AddressBookDto>> GetAsync()
         {
             var addressBooks = await _addressBookRepository.GetAsync();
-            return _mapper.Map<List<AddressBookResponseDto>>(addressBooks);
+            return _mapper.Map<List<AddressBookDto>>(addressBooks);
         }
 
-        public async Task<AddressBookResponseDto> GetAsync(int id)
+        public async Task<AddressBookDto> GetAsync(int id)
         {
             var addressBook = await _addressBookRepository.GetAsync(id);
-            return _mapper.Map<AddressBookResponseDto>(addressBook);
+            return _mapper.Map<AddressBookDto>(addressBook);
         }
 
-        public async Task<int> UpdateAsync(int id, AddressBookResponseDto addressBookDto)
+        public async Task<int> UpdateAsync(int id, AddressBookDto addressBookDto)
         {
             var addressBookToDelete = await _addressBookRepository.GetAsync(id);
             if (addressBookToDelete == null)

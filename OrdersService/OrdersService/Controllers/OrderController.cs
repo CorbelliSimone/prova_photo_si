@@ -44,7 +44,7 @@ namespace OrdersService.Controllers
             try
             {
                 var placedOrder = await _orderService.AddAsync(orderDto);
-                return Created("", placedOrder.Id);
+                return Created("", placedOrder);
             }
             catch (Exception e)
             {

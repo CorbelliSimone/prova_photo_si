@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using UsersService;
 using UsersService.Model;
+using UsersService.Service.User.Dto;
 
 using Xunit;
 
@@ -47,41 +48,59 @@ namespace UsersServiceTest
             };
         }
 
-        private Task<HttpResponseMessage> PostInternal(User user, HttpClient client)
+        private Task<HttpResponseMessage> PostInternal(UserDto user, HttpClient client)
         {
             return client.PostAsJsonAsync("/api/v1/user", user);
         }
 
+        private const string _characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public static string GenerateRandomString(int length, Random random)
+        {
+            if (length <= 0)
+                throw new ArgumentException("La lunghezza deve essere maggiore di zero.");
+
+            StringBuilder result = new StringBuilder(length);
+
+            for (int i = 0; i < length; i++)
+            {
+                int index = random.Next(_characters.Length);
+                result.Append(_characters[index]);
+            }
+
+            return result.ToString();
+        }
+
         public static IEnumerable<object[]> GetRandomUser()
         {
+            Random random = new();
             return new List<object[]>
             {
                 new object[] {
-                    new User() {
-                        FirstName = "nome1",
-                        LastName = "cognome1",
-                        Username = "nome1.cognome1"
+                    new UserDto() {
+                        FirstName = GenerateRandomString(30, random),
+                        LastName = GenerateRandomString(30, random),
+                        Username = GenerateRandomString(30, random)
                     }
                 },
                 new object[] {
-                    new User() {
-                        FirstName = "nome2",
-                        LastName = "cognome2",
-                        Username = "nome2.cognome2"
+                    new UserDto() {
+                        FirstName = GenerateRandomString(30, random),
+                        LastName = GenerateRandomString(30, random),
+                        Username = GenerateRandomString(30, random)
                     }
                 },
                 new object[] {
-                    new User() {
-                        FirstName = "nome3",
-                        LastName = "cognome3",
-                        Username = "nome3.cognome3"
+                    new UserDto() {
+                        FirstName = GenerateRandomString(30, random),
+                        LastName = GenerateRandomString(30, random),
+                        Username = GenerateRandomString(30, random)
                     }
                 },
                 new object[] {
-                    new User() {
-                        FirstName = "nome4",
-                        LastName = "cognome4",
-                        Username = "nome4.cognome4"
+                    new UserDto() {
+                        FirstName = GenerateRandomString(30, random),
+                        LastName = GenerateRandomString(30, random),
+                        Username = GenerateRandomString(30, random)
                     }
                 }
             };
@@ -89,13 +108,13 @@ namespace UsersServiceTest
 
         [Theory]
         [MemberData(nameof(GetRandomUser))]
-        public async Task Put(User user)
+        public async Task Put(UserDto user)
         {
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(user, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            var inserted = await responsePost.Content.ReadFromJsonAsync<User>();
+            var inserted = await responsePost.Content.ReadFromJsonAsync<UserDto>();
             Assert.NotNull(inserted);
 
             user.FirstName = $"{user.FirstName}_new";
@@ -107,7 +126,7 @@ namespace UsersServiceTest
 
         [Theory]
         [MemberData(nameof(GetRandomUser))]
-        public async Task Post(User user)
+        public async Task Post(UserDto user)
         {
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(user, client);
@@ -116,13 +135,13 @@ namespace UsersServiceTest
 
         [Theory]
         [MemberData(nameof(GetRandomUser))]
-        public async Task Delete(User user)
+        public async Task Delete(UserDto user)
         {
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(user, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            var inserted = await responsePost.Content.ReadFromJsonAsync<User>();
+            var inserted = await responsePost.Content.ReadFromJsonAsync<UserDto>();
             Assert.NotNull(inserted);
 
             HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/user/{inserted.Id}");

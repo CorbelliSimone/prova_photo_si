@@ -1,5 +1,6 @@
 ﻿using AddressBooksService;
 using AddressBooksService.Model;
+using AddressBooksService.Service.AddressBook.Dto;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -29,7 +30,7 @@ namespace AddressBooksServiceTest
             return new List<object[]>
             {
                 new object[] {
-                    new AddressBook() {
+                    new AddressBookDto() {
                         Cap = "123",
                         CityId = 1,
                         StreetName = "Nome strada",
@@ -37,7 +38,7 @@ namespace AddressBooksServiceTest
                     },
                 },
                 new object[] {
-                    new AddressBook() {
+                    new AddressBookDto() {
                         Cap = "456",
                         CityId = 1,
                         StreetName = "Nome strada 2",
@@ -45,7 +46,7 @@ namespace AddressBooksServiceTest
                     } 
                 },
                 new object[] {
-                    new AddressBook() {
+                    new AddressBookDto() {
                         Cap = "abc",
                         CityId = 2,
                         StreetName = "Nome strada 3",
@@ -53,7 +54,7 @@ namespace AddressBooksServiceTest
                     } 
                 },
                 new object[] {
-                    new AddressBook() {
+                    new AddressBookDto() {
                         Cap = "def",
                         CityId = 2,
                         StreetName = "Nome strada 4",
@@ -86,20 +87,20 @@ namespace AddressBooksServiceTest
             };
         }
 
-        private Task<HttpResponseMessage> PostInternal(AddressBook addressBook, HttpClient client)
+        private Task<HttpResponseMessage> PostInternal(AddressBookDto addressBook, HttpClient client)
         {
             return client.PostAsJsonAsync("/api/v1/address-book", addressBook);
         }
 
         [Theory]
         [MemberData(nameof(GetRandomAddressBook))]
-        public async Task Put(AddressBook addressBook)
+        public async Task Put(AddressBookDto addressBook)
         {
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(addressBook, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            var inserted = await responsePost.Content.ReadFromJsonAsync<AddressBook>();
+            var inserted = await responsePost.Content.ReadFromJsonAsync<AddressBookDto>();
             Assert.NotNull(inserted);
 
             addressBook.Cap = $"{addressBook.Cap}_new";
@@ -111,7 +112,7 @@ namespace AddressBooksServiceTest
 
         [Theory]
         [MemberData(nameof(GetRandomAddressBook))]
-        public async Task Add(AddressBook addressBook)
+        public async Task Post(AddressBookDto addressBook)
         {
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(addressBook, client);
@@ -120,20 +121,20 @@ namespace AddressBooksServiceTest
 
         [Theory]
         [MemberData(nameof(GetRandomAddressBook))]
-        public async Task Delete(AddressBook addressBook)
+        public async Task Delete(AddressBookDto addressBook)
         {
             using HttpClient client = _factory.CreateClient();
             HttpResponseMessage responsePost = await PostInternal(addressBook, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
             
-            var inserted = await responsePost.Content.ReadFromJsonAsync<AddressBook>();
+            var inserted = await responsePost.Content.ReadFromJsonAsync<AddressBookDto>();
             Assert.NotNull(inserted);
 
             HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/address-book/{inserted.Id}");
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
-        private Task<HttpResponseMessage> Post(AddressBook addressBook, HttpClient client)
+        private Task<HttpResponseMessage> Post(AddressBookDto addressBook, HttpClient client)
         {
             return client.PostAsJsonAsync("/api/v1/address-book", addressBook);
         }

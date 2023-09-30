@@ -9,7 +9,7 @@ namespace AddressBooksService.ProfileMapper
     {
         public AddressBookMapper()
         {
-            CreateMap<AddressBook, AddressBookResponseDto>()
+            CreateMap<AddressBook, AddressBookDto>()
                 .ReverseMap()
                 ; // Mappa Product a ProductDto
         }

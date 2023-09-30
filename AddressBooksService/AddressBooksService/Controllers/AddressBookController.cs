@@ -33,7 +33,7 @@ namespace AddressBooksService.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddressBookResponseDto addressBookDto)
+        public async Task<IActionResult> Post([FromBody] AddressBookDto addressBookDto)
         {
             if (addressBookDto == null)
             {
@@ -52,7 +52,7 @@ namespace AddressBooksService.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] AddressBookResponseDto addressBookDto)
+        public async Task<IActionResult> Put(int id, [FromBody] AddressBookDto addressBookDto)
         {
             if (id < 1)
             {

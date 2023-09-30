@@ -4,10 +4,10 @@ namespace AddressBooksService.Service.AddressBook
 {
     public interface IAddressBookService
     {
-        Task<AddressBookResponseDto> AddAsync(AddressBookResponseDto addressBookDto);
+        Task<AddressBookDto> AddAsync(AddressBookDto addressBookDto);
         Task DeleteAsync(int id);
-        Task<List<AddressBookResponseDto>> GetAsync();
-        Task<AddressBookResponseDto> GetAsync(int id);
-        Task<int> UpdateAsync(int id, AddressBookResponseDto addressBookDto);
+        Task<List<AddressBookDto>> GetAsync();
+        Task<AddressBookDto> GetAsync(int id);
+        Task<int> UpdateAsync(int id, AddressBookDto addressBookDto);
     }
 }

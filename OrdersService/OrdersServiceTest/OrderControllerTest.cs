@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xunit;
+using OrdersService.Model;
 
 namespace OrdersServiceTest
 {
@@ -23,47 +24,114 @@ namespace OrdersServiceTest
             _factory = factory;
         }
 
-
-        [Theory]
-        [MemberData(nameof(GetRandomProduct))]
-        public async Task UpdateProduct(ProductDto productDto)
+        public static IEnumerable<object[]> GetRandomOrder()
         {
-            Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
+            return new List<object[]>
+            {
+                new object[] {
+                    new OrderDto() {
+                        OrderName = "Nome ordine 1",
+                        UserId = 1,
+                        Products = new List<ProductDto>()
+                        {
+                            new ProductDto()
+                            {
+                                Quantity = 5
+                            },
+                            new ProductDto()
+                            {
+                                Quantity = 10
+                            }
+                        }
+                    },
+                },
+                new object[] {
+                    new OrderDto() {
+                        OrderName = "Nome ordine 2",
+                        UserId = 1,
+                        Products = new List<ProductDto>()
+                        {
+                            new ProductDto()
+                            {
+                                Quantity = 5
+                            },
+                            new ProductDto()
+                            {
+                                Quantity = 10
+                            }
+                        }
+                    }
+                }
+            };
+        }
 
-            Assert.NotNull(responseDto);
+        private static int GenerateRandomNumber(Random random, int minValue, int maxValue)
+        {
+            return random.Next(minValue, maxValue);
+        }
 
-            Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
+        public static IEnumerable<object[]> GetRandomId()
+        {
+            Random random = new();
+            return new List<object[]>
+            {
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) },
+                new object[] { GenerateRandomNumber(random, 1, 100) }
+            };
+        }
+
+        private Task<HttpResponseMessage> PostInternal(OrderDto order, HttpClient client)
+        {
+            return client.PostAsJsonAsync("/api/v1/order", order);
         }
 
         [Theory]
-        [MemberData(nameof(GetRandomProduct))]
-        public async Task AddProduct(ProductDto productDto)
+        [MemberData(nameof(GetRandomOrder))]
+        public async Task Post(OrderDto orderDto)
         {
+            using HttpClient client = _factory.CreateClient();
+            HttpResponseMessage responsePost = await PostInternal(orderDto, client);
             Assert.True(responsePost.StatusCode is HttpStatusCode.Created);
         }
 
         [Theory]
-        [MemberData(nameof(GetRandomProduct))]
-        public async Task DeleteProduct(ProductDto productDto)
+        [MemberData(nameof(GetRandomOrder))]
+        public async Task Delete(OrderDto Order)
         {
+            using HttpClient client = _factory.CreateClient();
+            HttpResponseMessage responsePost = await PostInternal(Order, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            Assert.NotNull(responseDto);
+            var inserted = await responsePost.Content.ReadFromJsonAsync<OrderDto>();
+            Assert.NotNull(inserted);
 
+            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/order/{inserted.Id}");
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
         [Fact]
-        public async Task GetProduct()
+        public async Task Get()
         {
+            using HttpClient client = _factory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("/api/v1/order");
             Assert.True(response.IsSuccessStatusCode);
         }
 
         [Theory]
         [MemberData(nameof(GetRandomId))]
-        public async Task GetProducts(int id)
+        public async Task Gets(int id)
         {
-            Assert.True();
+            using HttpClient client = _factory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync($"/api/v1/order/{id}");
+            Assert.True(response.IsSuccessStatusCode);
         }
     }
 }

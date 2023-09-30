@@ -1,6 +1,6 @@
 ﻿namespace AddressBooksService.Service.AddressBook.Dto
 {
-    public class AddressBookResponseDto
+    public class AddressBookDto
     {
         public int Id { get; set; }
         public string StreetName { get; set; }
