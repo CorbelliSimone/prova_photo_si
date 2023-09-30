@@ -44,14 +44,15 @@ namespace ApiService.Controllers
                 return BadRequest("Prima di piazzare un'ordine bisogna associare un indirizzo ad un utente api/v1/user/address/{addressId}");
             }
 
-            if (orderDto.ProductIds == null || orderDto.ProductIds.Count == 0)
+            if (orderDto.Products == null || orderDto.Products.Count == 0)
             {
                 return BadRequest("Nessun prodotto associato all'ordine");
             }
 
             try
             {
-                var placedOrder = await _orderService.PlaceOrder(orderDto, _userLoggedHandler.GetUserLogged());
+                orderDto.UserId = _userLoggedHandler.GetUserLogged().Id;
+                var placedOrder = await _orderService.PlaceOrder(orderDto);
                 return Created("", placedOrder);
             }
             catch (OrderException e)

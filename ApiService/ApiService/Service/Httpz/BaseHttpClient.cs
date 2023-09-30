@@ -16,7 +16,7 @@ namespace ApiService.Service.Httpz
 
         public async Task<object> Put(string url, object dataPayload)
         {
-            var response = await _httpClient.PutAsJsonAsync<object>(url, dataPayload);
+            var response = await _httpClient.PutAsJsonAsync<object>($"{_baseUrl}{url}", dataPayload);
             return response.IsSuccessStatusCode;
         }
 
@@ -38,19 +38,19 @@ namespace ApiService.Service.Httpz
             return await ManageResponse<T>(response);
         }
 
-        private Task<T> ManageResponse<T>(HttpResponseMessage response)
+        private async Task<T> ManageResponse<T>(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
             {
-                throw new BaseHttpClientException("");
+                throw new BaseHttpClientException(await response.Content.ReadAsStringAsync());
             }
 
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
-                return Task.FromResult<T>(default(T));
+                return default(T);
             }
 
-            return response.Content.ReadFromJsonAsync<T>();
+            return await response.Content.ReadFromJsonAsync<T>();
         }
     }
 }

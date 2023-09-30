@@ -41,5 +41,14 @@ namespace OrdersService.Repository.Order
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
+
+        public Task<List<Model.Order>> GetByProductIdAsync(int productId)
+        {
+            return base._context.Orders
+                .Where(x => x.OrderProducts.Any(y => y.ProductId == productId))
+                .AsNoTracking()
+                .ToListAsync()
+                ;
+        }
     }
 }

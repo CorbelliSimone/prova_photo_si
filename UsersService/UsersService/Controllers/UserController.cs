@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 
 using UsersService.Service.User;
 using UsersService.Service.User.Dto;
@@ -22,6 +23,17 @@ namespace UsersService.Controllers
         public UserController(IUserService userService)
         {
             this._userService = userService;
+        }
+
+        [HttpGet("address/{addressId}")]
+        public async Task<IActionResult> GetByAddressId(int addressId)
+        {
+            if(addressId < 1)
+            {
+                return BadRequest($"AddressId {addressId} non valido");
+            }
+
+            return Ok(await _userService.GetByAddressIdAsync(addressId));
         }
 
         /// <summary>
@@ -84,17 +96,22 @@ namespace UsersService.Controllers
         /// <returns>
         /// Risposta HTTP che indica l'esito dell'operazione.
         /// </returns>
-        [HttpPut("{id}/{addressId}")]
-        public async Task<IActionResult> UpdateAddressAsync(int id, int addressId)
+        [HttpPut("address/{id}/{addressId}")]
+        public async Task<IActionResult> UpdateAddressAsync(int id, int? addressId)
         {
             if (id < 1)
             {
                 return BadRequest($"Utente {id} non esistente");
             }
 
-            if (addressId < 1)
+            if (addressId == 0)
             {
                 return BadRequest($"AddressId {addressId} non valido");
+            }
+
+            if (addressId == -1)
+            {
+                addressId = null;
             }
 
             try

@@ -33,5 +33,6 @@ namespace OrdersService.Service.Order
         /// <param name="orderDto">Oggetto OrderDto che rappresenta l'ordine da aggiungere.</param>
         /// <returns>Task che restituisce l'oggetto OrderDto aggiunto.</returns>
         Task<OrderDto> AddAsync(OrderDto orderDto);
+        Task<List<OrderDto>> GetByProductIdAsync(int productId);
     }
 }

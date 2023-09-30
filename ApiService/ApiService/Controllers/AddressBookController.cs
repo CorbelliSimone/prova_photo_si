@@ -1,4 +1,5 @@
 ﻿using ApiService.Service.AddressBook;
+using ApiService.Service.AddressBook.Exceptionz;
 using ApiService.Service.User.Cache;
 
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,24 @@ namespace ApiService.Controllers
         public async Task<IActionResult> Get(int id) => Ok(await _addressBookService.Get(id));
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id) => Ok(await _addressBookService.Delete(id));
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id < 0)
+            {
+                return BadRequest($"Id indirizzo non puo' essere minore di 1 {id}");
+            }
 
-        [HttpPut("${id}")]
+            try
+            {
+                return Ok(await _addressBookService.Delete(id));
+            }
+            catch (AddressBookException e)
+            {
+                return BadRequest($"Errore eliminazione indirizzo {e.Message}");
+            }
+        }
+
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] object addressBookDto)
         {
             if (id < 1)

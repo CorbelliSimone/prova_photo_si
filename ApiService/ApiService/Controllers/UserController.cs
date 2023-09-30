@@ -1,6 +1,7 @@
 ﻿using ApiService.Service.Httpz;
 using ApiService.Service.User;
 using ApiService.Service.User.Cache;
+using ApiService.Service.User.Dto;
 using ApiService.Service.User.Exceptionz;
 
 using Microsoft.AspNetCore.Mvc;
@@ -33,17 +34,21 @@ namespace ApiService.Controllers
 
         // Simula la registrazione di un utente
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync(object userLogged)
+        public async Task<IActionResult> RegisterAsync(UserDto userDto)
         {
-            if (userLogged == null)
+            if (userDto == null)
             {
                 return BadRequest("Oggetto per la registrazione utente arrivato nullo");
             }
 
             try
             {
-                var createdUser = await _userService.AddAsync(userLogged);
+                var createdUser = await _userService.AddAsync(userDto);
                 return Ok($"Utente creato {createdUser.Username} con id {createdUser.Id}, puoi usare l'id per eseguire il login");
+            }
+            catch (UserException e)
+            {
+                return BadRequest($"Errore registrazione utente {e.Message}");
             }
             catch (BaseHttpClientException e)
             {
@@ -66,9 +71,13 @@ namespace ApiService.Controllers
 
             try
             {
-                var userForLogged = await _userService.GetAsync(id);
+                var userForLogged = await _userService.LoginAsync(id);
                 _userLoggedHandler.SetUserLogged(userForLogged);
                 return Ok($"Utente {id} loggato con successo");
+            }
+            catch (UserException e)
+            {
+                return BadRequest($"Errore login utente {e.Message}");
             }
             catch (BaseHttpClientException e)
             {
@@ -80,6 +89,24 @@ namespace ApiService.Controllers
             }
         }
 
+        // Modifa l'utente
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, object userDto)
+        {
+            if (id < 1)
+            {
+                return BadRequest($"Impossibile loggarsi con id minore di 1 {id}");
+            }
+
+            if (userDto == null)
+            {
+                return BadRequest($"");
+            }
+
+            return Ok(await _userService.UpdateAsync(id, userDto));
+        }
+
+        // Modifica l'indirizzo
         [HttpPut("address/{addressId}")]
         public async Task<IActionResult> AddAddressAsync(int addressId)
         {

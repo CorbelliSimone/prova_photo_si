@@ -2,7 +2,6 @@
 using ApiService.Service.Order.Exceptionz;
 using ApiService.Service.Order.Httpz;
 using ApiService.Service.Product.Httpz;
-using ApiService.Service.User.Dto;
 
 namespace ApiService.Service.Order
 {
@@ -36,18 +35,18 @@ namespace ApiService.Service.Order
             return _orderHttpClient.Get<List<object>>(string.Empty);
         }
 
-        public Task<object> PlaceOrder(OrderDto orderDto, UserDto userLogged)
+        public async Task<object> PlaceOrder(OrderDto orderDto)
         {
-            orderDto.ProductIds.ForEach(async productId =>
+            foreach (var product in orderDto.Products)
             {
-                var product = await _productHttpClient.Get<object>($"{productId}");
-                if (product == null)
+                var findedProduct = await _productHttpClient.Get<object>($"{product.Id}");
+                if (findedProduct == null)
                 {
-                    throw new OrderException($"Prodotto {productId} non esistente");
+                    throw new OrderException($"Prodotto {product.Id} non esistente");
                 }
-            });
+            }
 
-            return _orderHttpClient.Post<object>($"{userLogged.Id}", orderDto);
+            return await _orderHttpClient.Post<object>(string.Empty, orderDto);
         }
     }
 }

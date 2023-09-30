@@ -88,5 +88,11 @@ namespace OrdersService.Service.Order
 
             return _mapper.Map<OrderDto>(inserted);
         }
+
+        public async Task<List<OrderDto>> GetByProductIdAsync(int productId)
+        {
+            var foundedOrders = await _orderRepository.GetByProductIdAsync(productId);
+            return _mapper.Map<List<OrderDto>>(foundedOrders);
+        }
     }
 }

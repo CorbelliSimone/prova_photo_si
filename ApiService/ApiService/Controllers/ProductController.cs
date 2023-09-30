@@ -1,5 +1,6 @@
 ﻿using ApiService.Service.Httpz;
 using ApiService.Service.Product;
+using ApiService.Service.Product.Exceptionz;
 using ApiService.Service.User.Cache;
 
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,22 @@ namespace ApiService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id) => Ok(await _productService.DeleteAsync(id));
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id < 1)
+            {
+                return BadRequest($"Impossibile eliminare prodotto con id {id}");
+            }
+
+            try
+            {
+                return Ok(await _productService.DeleteAsync(id));
+            }
+            catch (ProductException e)
+            {
+                return BadRequest($"Eerrore eliminazione prodotto {id}: {e.Message}");
+            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _productService.GetAsync());

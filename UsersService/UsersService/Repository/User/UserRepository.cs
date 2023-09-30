@@ -23,5 +23,13 @@ namespace UsersService.Repository.User
         /// <param name="username">Nome utente dell'utente da cercare.</param>
         /// <returns>Task asincrono che restituisce l'utente trovato, null se non trovato.</returns>
         public Task<Model.User> FindByUsernameAsync(string username) => _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+
+        public Task<List<Model.User>> GetByAddressIdAsync(int addressId)
+        {
+            return _context.Users
+                .AsNoTracking()
+                .Where(x => x.AddressId == addressId)
+                .ToListAsync();
+        }
     }
 }

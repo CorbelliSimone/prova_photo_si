@@ -17,5 +17,6 @@
         /// </summary>
         /// <returns>Una lista di ordini con le informazioni correlate.</returns>
         Task<List<Model.Order>> GetAllAndInclude();
+        Task<List<Model.Order>> GetByProductIdAsync(int productId);
     }
 }

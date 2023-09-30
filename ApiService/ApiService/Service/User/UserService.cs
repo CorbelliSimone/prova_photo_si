@@ -28,7 +28,7 @@ namespace ApiService.Service.User
                 throw new UserException($"AddressBook {addressId} non esistente");
             }
 
-            return _userHttpClient.Put($"{id}/{addressId}", null);
+            return _userHttpClient.UpdateAddressId(id, addressId);
         }
 
         public Task<List<UserDto>> GetAsync()
@@ -36,19 +36,43 @@ namespace ApiService.Service.User
             return _userHttpClient.Get<List<UserDto>>(string.Empty);
         }
 
+        public async Task<UserDto> LoginAsync(int id)
+        {
+            var userToLog = await _userHttpClient.Get<UserDto>($"{id}");
+            if (userToLog == null)
+            {
+                throw new UserException($"Utente {id} non esistente");
+            }
+            return userToLog;
+        }
+
         public Task<UserDto> GetAsync(int id)
         {
             return _userHttpClient.Get<UserDto>($"{id}");
         }
 
-        public Task<UserDto> AddAsync(object user)
+        public async Task<UserDto> AddAsync(UserDto user)
         {
-            return _userHttpClient.Post<UserDto>(string.Empty, user);
+            if (user.AddressId.HasValue)
+            {
+                var addressBook = await _addressBookHttpClient.Get<object>($"{user.AddressId}");
+                if (addressBook == null)
+                {
+                    throw new UserException($"Non posso creare l'utente per indirizzo {user.AddressId} non esistente");
+                }
+            }
+
+            return await _userHttpClient.Post<UserDto>(string.Empty, user);
         }
 
         public Task<bool> DeleteAsync(int id)
         {
             return _userHttpClient.Delete($"{id}");
+        }
+
+        public Task<object> UpdateAsync(int id, object userDto)
+        {
+            return _userHttpClient.Put($"{id}", userDto);
         }
     }
 }

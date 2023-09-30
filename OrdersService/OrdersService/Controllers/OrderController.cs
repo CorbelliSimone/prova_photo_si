@@ -24,6 +24,17 @@ namespace OrdersService.Controllers
             this._orderService = orderService;
         }
 
+        [HttpGet("product/{productId}")]
+        public async Task<IActionResult> GetByProductId(int productId)
+        {
+            if (productId < 1)
+            {
+                return BadRequest($"ProductId {productId} non valido");
+            }
+
+            return Ok(await _orderService.GetByProductIdAsync(productId));
+        }
+
         /// <summary>
         /// Restituisce tutti gli ordini.
         /// </summary>
