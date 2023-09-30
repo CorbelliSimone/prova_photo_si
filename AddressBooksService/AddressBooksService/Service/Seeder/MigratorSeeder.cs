@@ -2,22 +2,41 @@
 
 using Microsoft.EntityFrameworkCore;
 
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace AddressBooksService.Service.Seeder
 {
+    /// <summary>
+    /// Classe per l'applicazione delle migrazioni e il popolamento del database.
+    /// </summary>
     public class MigratorSeeder : IMigratorSeeder
     {
         private readonly Context _context;
 
+        /// <summary>
+        /// Costruttore per la classe MigratorSeeder.
+        /// </summary>
+        /// <param name="context">Il contesto del database.</param>
         public MigratorSeeder(Context context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Applica le migrazioni al database.
+        /// </summary>
+        /// <returns>Task asincrono.</returns>
         public Task ApplyMigration()
         {
             return _context.Database.MigrateAsync();
         }
 
+        /// <summary>
+        /// Popola il database con dati iniziali se non sono già presenti.
+        /// </summary>
+        /// <returns>Task asincrono.</returns>
         public async Task SeedDb()
         {
             if (!(await _context.Countries.AnyAsync()))
@@ -27,7 +46,7 @@ namespace AddressBooksService.Service.Seeder
                 {
                     new Country { Name = "Country1", Alpha3 = "AAA", Alpha2 = "AA" },
                     new Country { Name = "Country2", Alpha3 = "BBB", Alpha2 = "BB" },
-                    // Add more countries as needed
+                    // Aggiungere altri paesi se necessario
                 };
 
                 // Seed cities
@@ -35,7 +54,7 @@ namespace AddressBooksService.Service.Seeder
                 {
                     new City { Name = "City1", CadastralCode = "111", Country = countries.First() },
                     new City { Name = "City2", CadastralCode = "222", Country = countries.Last() },
-                    // Add more cities as needed
+                    // Aggiungere altre città se necessario
                 };
 
                 // Seed address books
@@ -43,8 +62,9 @@ namespace AddressBooksService.Service.Seeder
                 {
                     new Model.AddressBook { StreetName = "Street1", Cap = "12345", StreetNumber = "123", City = cities.First() },
                     new Model.AddressBook { StreetName = "Street2", Cap = "67890", StreetNumber = "456", City = cities.Last() },
-                    // Add more address books as needed
+                    // Aggiungere altri indirizzi se necessario
                 };
+
                 await _context.AddressBooks.AddRangeAsync(addressBooks);
                 await _context.SaveChangesAsync();
             }
