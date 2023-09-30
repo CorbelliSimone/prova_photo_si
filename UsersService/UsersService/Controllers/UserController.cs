@@ -42,7 +42,7 @@ namespace UsersService.Controllers
 
             try
             {
-                UserDto createdResource = await _userService.AddAsync(userDto);
+                var createdResource = await _userService.AddAsync(userDto);
                 return Created("", createdResource);
             }
             catch (UserException e)
