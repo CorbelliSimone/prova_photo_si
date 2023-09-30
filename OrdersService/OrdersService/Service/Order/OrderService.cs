@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using AutoMapper;
 
 using OrdersService.Repository.Order;
 using OrdersService.Service.Order.Dto;
@@ -6,21 +10,30 @@ using OrdersService.Service.Order.Exceptionz;
 
 namespace OrdersService.Service.Order
 {
+    /// <summary>
+    /// Implementazione del servizio per la gestione degli ordini.
+    /// </summary>
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
 
-        public OrderService
-        (
-            IOrderRepository orderRepository,
-            IMapper mapper
-        )
+        /// <summary>
+        /// Crea una nuova istanza di OrderService.
+        /// </summary>
+        /// <param name="orderRepository">Il repository degli ordini.</param>
+        /// <param name="mapper">L'oggetto Mapper per la conversione degli oggetti.</param>
+        public OrderService(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Elimina un ordine in base all'ID specificato.
+        /// </summary>
+        /// <param name="id">ID dell'ordine da eliminare.</param>
+        /// <returns>Task che rappresenta l'operazione asincrona di eliminazione.</returns>
         public async Task DeleteAsync(int id)
         {
             var orderToDelete = await _orderRepository.GetAsync(id);
@@ -32,18 +45,32 @@ namespace OrdersService.Service.Order
             await _orderRepository.DeleteAsync(id);
         }
 
+        /// <summary>
+        /// Ottiene tutti gli ordini presenti.
+        /// </summary>
+        /// <returns>Task che restituisce una lista di oggetti OrderDto rappresentanti gli ordini.</returns>
         public async Task<List<OrderDto>> GetAsync()
         {
             var orders = await _orderRepository.GetAllAndInclude();
             return _mapper.Map<List<OrderDto>>(orders);
         }
 
+        /// <summary>
+        /// Ottiene un ordine in base all'ID specificato.
+        /// </summary>
+        /// <param name="id">ID dell'ordine da ottenere.</param>
+        /// <returns>Task che restituisce l'oggetto OrderDto corrispondente all'ID specificato.</returns>
         public async Task<OrderDto> GetAsync(int id)
         {
             var order = await _orderRepository.GetAndInclude(id);
             return _mapper.Map<OrderDto>(order);
         }
 
+        /// <summary>
+        /// Aggiunge un nuovo ordine.
+        /// </summary>
+        /// <param name="orderDto">Oggetto OrderDto che rappresenta l'ordine da aggiungere.</param>
+        /// <returns>Task che restituisce l'oggetto OrderDto aggiunto.</returns>
         public async Task<OrderDto> AddAsync(OrderDto orderDto)
         {
             var orderProducts = new List<Model.OrderProducts>();

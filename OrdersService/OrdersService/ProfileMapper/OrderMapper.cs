@@ -5,9 +5,16 @@ using OrdersService.Service.Order.Dto;
 
 namespace OrdersService.ProfileMapper
 {
+    /// <summary>
+    /// Mapper per la conversione tra oggetti Order e OrderDto.
+    /// </summary>
     public class OrderMapper : Profile
     {
-        public OrderMapper() {
+        /// <summary>
+        /// Costruttore che definisce le mappe tra Order e OrderDto.
+        /// </summary>
+        public OrderMapper()
+        {
             CreateMap<Order, OrderDto>()
                 .ForMember(x => x.Products, y => y.MapFrom(z => z.OrderProducts))
                 .ReverseMap()

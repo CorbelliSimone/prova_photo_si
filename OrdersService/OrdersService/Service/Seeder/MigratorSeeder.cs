@@ -4,20 +4,35 @@ using OrdersService.Model;
 
 namespace OrdersService.Service.Seeder
 {
+    /// <summary>
+    /// Implementazione dell'interfaccia IMigratorSeeder per applicare migrazioni e inserire dati nel database.
+    /// </summary>
     public class MigratorSeeder : IMigratorSeeder
     {
         private readonly Context _context;
 
+        /// <summary>
+        /// Crea una nuova istanza della classe MigratorSeeder.
+        /// </summary>
+        /// <param name="context">Un'istanza del contesto del database.</param>
         public MigratorSeeder(Context context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Applica le migrazioni al database.
+        /// </summary>
+        /// <returns>Un'attività asincrona che rappresenta l'esecuzione dell'operazione.</returns>
         public Task ApplyMigration()
         {
             return _context.Database.MigrateAsync();
         }
 
+        /// <summary>
+        /// Inserisce dati di esempio nel database se non esistono già ordini.
+        /// </summary>
+        /// <returns>Un'attività asincrona che rappresenta l'esecuzione dell'operazione.</returns>
         public async Task SeedDb()
         {
             if (!(await _context.Orders.AnyAsync()))

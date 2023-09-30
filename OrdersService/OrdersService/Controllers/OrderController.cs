@@ -6,23 +6,44 @@ using OrdersService.Service.Order.Exceptionz;
 
 namespace OrdersService.Controllers
 {
+    /// <summary>
+    /// Controller per la gestione degli ordini.
+    /// </summary>
     [Route("api/v1/order")]
     [ApiController]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
 
+        /// <summary>
+        /// Crea una nuova istanza della classe OrderController.
+        /// </summary>
+        /// <param name="orderService">Un'istanza del servizio IOrderService utilizzato per la gestione degli ordini.</param>
         public OrderController(IOrderService orderService)
         {
             this._orderService = orderService;
         }
 
+        /// <summary>
+        /// Restituisce tutti gli ordini.
+        /// </summary>
+        /// <returns>Un'azione che restituisce un oggetto IActionResult che rappresenta il risultato della richiesta HTTP.</returns>
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _orderService.GetAsync());
 
+        /// <summary>
+        /// Restituisce un ordine specificato per ID.
+        /// </summary>
+        /// <param name="id">L'ID dell'ordine da recuperare.</param>
+        /// <returns>Un'azione che restituisce un oggetto IActionResult che rappresenta il risultato della richiesta HTTP.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id) => Ok(await _orderService.GetAsync(id));
 
+        /// <summary>
+        /// Piazza un nuovo ordine.
+        /// </summary>
+        /// <param name="orderDto">L'oggetto OrderDto che rappresenta i dati dell'ordine da piazzare.</param>
+        /// <returns>Un'azione che restituisce un oggetto IActionResult che rappresenta il risultato della richiesta HTTP.</returns>
         [HttpPost]
         public async Task<IActionResult> PlaceOrderAsync([FromBody] OrderDto orderDto)
         {
@@ -52,6 +73,11 @@ namespace OrdersService.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un ordine specificato per ID.
+        /// </summary>
+        /// <param name="id">L'ID dell'ordine da eliminare.</param>
+        /// <returns>Un'azione che restituisce un oggetto IActionResult che rappresenta il risultato della richiesta HTTP.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -69,7 +95,7 @@ namespace OrdersService.Controllers
             {
                 return BadRequest($"Errore eliminazione ordine {e.Message}");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode(500, e.Message);
             }
