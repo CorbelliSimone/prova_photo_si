@@ -70,54 +70,56 @@ namespace ProductsServiceTest
             return random.Next(minValue, maxValue);
         }
 
-        private Task<HttpResponseMessage> Post(ProductDto productDto, HttpClient client)
+        private Task<HttpResponseMessage> PostInternal(ProductDto productDto, HttpClient client)
         {
             return client.PostAsJsonAsync("/api/v1/product", productDto);
         }
 
         [Theory]
         [MemberData(nameof(GetRandomProduct))]
-        public async Task UpdateProduct(ProductDto productDto)
+        public async Task Put(ProductDto productDto)
         {
             using HttpClient client = _factory.CreateClient();
-            HttpResponseMessage responsePost = await Post(productDto, client);
+            HttpResponseMessage responsePost = await PostInternal(productDto, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
 
-            ProductDto? responseDto = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
-            Assert.NotNull(responseDto);
+            var insertedId = await responsePost.Content.ReadAsStringAsync();
+            Assert.NotNull(insertedId);
+            Assert.NotEqual("", insertedId);
 
             productDto.Name = $"{productDto.Name}_new";
             productDto.Description = $"{productDto.Description}_new";
-            HttpResponseMessage responseDelete = await client.PutAsJsonAsync($"/api/v1/product/{responseDto.Id}", productDto);
+            HttpResponseMessage responseDelete = await client.PutAsJsonAsync($"/api/v1/product/{insertedId}", productDto);
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
         [Theory]
         [MemberData(nameof(GetRandomProduct))]
-        public async Task AddProduct(ProductDto productDto)
+        public async Task Post(ProductDto productDto)
         {
             using HttpClient client = _factory.CreateClient();
-            HttpResponseMessage responsePost = await Post(productDto, client);
+            HttpResponseMessage responsePost = await PostInternal(productDto, client);
             Assert.True(responsePost.StatusCode is HttpStatusCode.Created);
         }
 
         [Theory]
         [MemberData(nameof(GetRandomProduct))]
-        public async Task DeleteProduct(ProductDto productDto)
+        public async Task Delete(ProductDto productDto)
         {
             using HttpClient client = _factory.CreateClient();
-            HttpResponseMessage responsePost = await Post(productDto, client);
+            HttpResponseMessage responsePost = await PostInternal(productDto, client);
             Assert.True(responsePost.StatusCode == HttpStatusCode.Created);
+            
+            var insertedId = await responsePost.Content.ReadAsStringAsync();
+            Assert.NotNull(insertedId);
+            Assert.NotEqual("", insertedId);
 
-            ProductDto? responseDto = await responsePost.Content.ReadFromJsonAsync<ProductDto>();
-            Assert.NotNull(responseDto);
-
-            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/product/{responseDto.Id}");
+            HttpResponseMessage responseDelete = await client.DeleteAsync($"/api/v1/product/{insertedId}");
             Assert.True(responseDelete.StatusCode is HttpStatusCode.OK);
         }
 
         [Fact]
-        public async Task GetProduct()
+        public async Task Get()
         {
             using HttpClient client = _factory.CreateClient();
             using HttpResponseMessage response = await client.GetAsync("/api/v1/product");
@@ -126,11 +128,11 @@ namespace ProductsServiceTest
 
         [Theory]
         [MemberData(nameof(GetRandomId))]
-        public async Task GetProducts(int id)
+        public async Task Gets(int id)
         {
             using HttpClient client = _factory.CreateClient();
             using HttpResponseMessage response = await client.GetAsync($"/api/v1/product/{id}");
-            Assert.True(response.StatusCode is HttpStatusCode.OK or HttpStatusCode.NotFound);
+            Assert.True(response.IsSuccessStatusCode);
         }
     }
 }

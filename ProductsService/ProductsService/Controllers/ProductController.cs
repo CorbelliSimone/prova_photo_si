@@ -54,7 +54,7 @@ namespace ProductsService.Controllers
             try
             {
                 ProductDto createdResource = await _categoryService.AddAsync(productDto);
-                return Created("", createdResource);
+                return Created("", createdResource.Id);
             }
             catch (ProductException e)
             {
