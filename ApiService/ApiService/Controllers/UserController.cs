@@ -68,7 +68,7 @@ namespace ApiService.Controllers
             try
             {
                 var createdUser = await _userService.AddAsync(userDto);
-                return Ok($"Utente creato {createdUser.Username} con id {createdUser.Id}, puoi usare l'id per eseguire il login");
+                return Ok($"Utente creato {createdUser.Username} con id {createdUser.Id}, puoi usare l'id per eseguire il login /api/v1/user");
             }
             catch (UserException e)
             {
