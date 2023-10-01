@@ -18,6 +18,8 @@ Tutti i servizi sono stati creati con:
 
 ## MICROSERVIZI
 >  Ogni microservizio e' corredato di test e al primo avvio si occupa di **creare in automatico** il proprio database ed effettuarne un **seeding**, in piu' per ogni microservizio e' presente un **appsettings.json** e un **appsettings.Development.json** (automaticamente usato in fase di debug).
+> > **N.B.: Ricordasi nella stringa di connessione al database di settare correttamente la porta del db, username e password**
+> > **N.B.: E' importante prima di avviare i test di dare un normale avvio al servizio per far creare il database e relative tabelle**
 #### - [Orders Service](#OrdersService)
 #### - [AddressBook Service](#AddressBookService)
 #### - [Products Service](#ProductsService)
@@ -25,7 +27,7 @@ Tutti i servizi sono stati creati con:
 
 ## ApiService (Api Gateway) <a name="ApiService"></a>
 Servizio di Api Gateway che si occupa di contattare tutti i microservizi, espone delle api REST.
-Il servizio prevede un controller **UserController** con cui simulare la **registrazione utente** e il **login utente**, e' poi possibile piazzare un ordine tramite **OrderController** passandogli **Nome ordine**, **Id indirizzo consegna** e **lista degli id dei prodotti con le quantita'**.
+Il servizio prevede un controller **UserController** con cui simulare la **registrazione utente** (POST http://ip:9000/api/v1/user) e il **login utente** (POST http://ip:9000/api/v1/user/{userId}), e' poi possibile piazzare un ordine (POST http://ip:9000/api/v1/order) tramite **OrderController** passandogli **Nome ordine**, **Id indirizzo consegna** e **lista degli id dei prodotti con le quantita'**.
 Sono comunque disponibili le api per contattare tutti i relativi microservizi ed ottenere/aggiungere/modificare **Utenti**, **Prodotti**, **Indirizzi** e **Ordini**.
 Di default parte sulla porta **9000**, e' comunque possibile modificarla cambiandola nel file **launchSettings.json**.
 I file di appsettings.json e appsettings.Development.json sono strutturati nel seguente modo:
