@@ -21,7 +21,7 @@ namespace OrdersService.ProfileMapper
                 ;
 
             CreateMap<OrderProducts, ProductDto>()
-                .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
+                .ForMember(x => x.Id, y => y.MapFrom(z => z.ProductId))
                 .ForMember(x => x.Quantity, y => y.MapFrom(z => z.Quantity))
                 .ReverseMap()
                 ;

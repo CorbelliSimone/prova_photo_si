@@ -1,7 +1,6 @@
 ﻿using ApiService.Service.AddressBook.Exceptionz;
 using ApiService.Service.AddressBook.Httpz;
 using ApiService.Service.Order.Httpz;
-using ApiService.Service.Product.Exceptionz;
 
 namespace ApiService.Service.AddressBook
 {
