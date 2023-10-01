@@ -27,14 +27,17 @@ namespace OrdersServiceTest
                     new OrderDto() {
                         OrderName = "Nome ordine 1",
                         UserId = 1,
+                        AddressId = 1,
                         Products = new List<ProductDto>()
                         {
                             new ProductDto()
                             {
+                                Id = 1,
                                 Quantity = 5
                             },
                             new ProductDto()
                             {
+                                Id = 1,
                                 Quantity = 10
                             }
                         }
@@ -44,14 +47,17 @@ namespace OrdersServiceTest
                     new OrderDto() {
                         OrderName = "Nome ordine 2",
                         UserId = 1,
+                        AddressId = 1,
                         Products = new List<ProductDto>()
                         {
                             new ProductDto()
                             {
+                                Id = 1,
                                 Quantity = 5
                             },
                             new ProductDto()
                             {
+                                Id = 1,
                                 Quantity = 10
                             }
                         }

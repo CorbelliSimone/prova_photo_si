@@ -74,6 +74,11 @@ namespace OrdersService.Controllers
                 return BadRequest($"Ordine da piazzare arrivato nullo");
             }
 
+            if (orderDto.AddressId < 1)
+            {
+                return BadRequest($"Non posso piazzare un ordine con id address minore di 1 {orderDto.AddressId}");
+            }
+
             if (orderDto.UserId < 1)
             {
                 return BadRequest($"Non posso piazzare un ordine con un utente minore di 1 {orderDto.UserId}");
