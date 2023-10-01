@@ -6,12 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiService.Controllers
 {
+    /// <summary>
+    /// Controller per gestire le operazioni relative all'indirizzario.
+    /// </summary>
     [Route("api/v1/address-book")]
     [ApiController]
     public class AddressBookController : BaseApiController
     {
         private readonly IAddressBookService _addressBookService;
 
+        /// <summary>
+        /// Inizializza una nuova istanza della classe <see cref="AddressBookController"/>.
+        /// </summary>
+        /// <param name="addressBookService">Servizio per la gestione dell'indirizzario.</param>
+        /// <param name="userLoggedHandler">Handler per l'utente loggato.</param>
         public AddressBookController
         (
             IAddressBookService addressBookService,
@@ -21,12 +29,26 @@ namespace ApiService.Controllers
             _addressBookService = addressBookService;
         }
 
+        /// <summary>
+        /// Ottiene tutti gli indirizzi.
+        /// </summary>
+        /// <returns>Risposta HTTP con gli indirizzi.</returns>
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _addressBookService.Get());
 
+        /// <summary>
+        /// Ottiene un indirizzo per ID.
+        /// </summary>
+        /// <param name="id">ID dell'indirizzo.</param>
+        /// <returns>Risposta HTTP con l'indirizzo corrispondente all'ID specificato.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id) => Ok(await _addressBookService.Get(id));
 
+        /// <summary>
+        /// Elimina un indirizzo.
+        /// </summary>
+        /// <param name="id">ID dell'indirizzo da eliminare.</param>
+        /// <returns>Risposta HTTP che indica l'esito dell'operazione di eliminazione.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -45,6 +67,12 @@ namespace ApiService.Controllers
             }
         }
 
+        /// <summary>
+        /// Aggiorna un indirizzo.
+        /// </summary>
+        /// <param name="id">ID dell'indirizzo da aggiornare.</param>
+        /// <param name="addressBookDto">Dati dell'indirizzo da aggiornare.</param>
+        /// <returns>Risposta HTTP con l'indirizzo aggiornato.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] object addressBookDto)
         {
@@ -69,6 +97,11 @@ namespace ApiService.Controllers
             }
         }
 
+        /// <summary>
+        /// Crea un nuovo indirizzo.
+        /// </summary>
+        /// <param name="addressBookDto">Dati del nuovo indirizzo.</param>
+        /// <returns>Risposta HTTP con l'indirizzo creato.</returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] object addressBookDto)
         {

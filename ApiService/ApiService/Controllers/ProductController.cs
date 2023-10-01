@@ -7,12 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiService.Controllers
 {
+    /// <summary>
+    /// Controller per gestire le operazioni relative ai prodotti.
+    /// </summary>
     [Route("api/v1/product")]
     [ApiController]
     public class ProductController : BaseApiController
     {
         private readonly IProductService _productService;
 
+        /// <summary>
+        /// Inizializza una nuova istanza della classe <see cref="ProductController"/>.
+        /// </summary>
+        /// <param name="productService">Servizio per la gestione dei prodotti.</param>
+        /// <param name="userLoggedHandler">Handler per l'utente loggato.</param>
         public ProductController
         (
             IProductService productService,
@@ -22,6 +30,11 @@ namespace ApiService.Controllers
             _productService = productService;
         }
 
+        /// <summary>
+        /// Elimina un prodotto per ID.
+        /// </summary>
+        /// <param name="id">ID del prodotto da eliminare.</param>
+        /// <returns>Risposta HTTP che indica l'esito dell'operazione di eliminazione.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -40,12 +53,27 @@ namespace ApiService.Controllers
             }
         }
 
+        /// <summary>
+        /// Ottiene tutti i prodotti.
+        /// </summary>
+        /// <returns>Risposta HTTP con i prodotti.</returns>
         [HttpGet]
         public async Task<IActionResult> Get() => Ok(await _productService.GetAsync());
 
+        /// <summary>
+        /// Ottiene un prodotto per ID.
+        /// </summary>
+        /// <param name="id">ID del prodotto.</param>
+        /// <returns>Risposta HTTP con il prodotto corrispondente all'ID specificato.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id) => Ok(await _productService.GetAsync(id));
 
+        /// <summary>
+        /// Aggiorna un prodotto.
+        /// </summary>
+        /// <param name="id">ID del prodotto da aggiornare.</param>
+        /// <param name="productDto">Dati del prodotto da aggiornare.</param>
+        /// <returns>Risposta HTTP con il prodotto aggiornato.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] object productDto)
         {
@@ -70,6 +98,11 @@ namespace ApiService.Controllers
             }
         }
 
+        /// <summary>
+        /// Crea un nuovo prodotto.
+        /// </summary>
+        /// <param name="productDto">Dati del nuovo prodotto.</param>
+        /// <returns>Risposta HTTP con il prodotto creato.</returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] object productDto)
         {

@@ -11,6 +11,9 @@ using ApiService.Settings;
 
 namespace ApiService
 {
+    /// <summary>
+    /// Classe di avvio dell'applicazione.
+    /// </summary>
     public class Startup
     {
         private readonly WebApplicationBuilder _builder;
@@ -20,13 +23,21 @@ namespace ApiService
             _builder = builder;
         }
 
+        /// <summary>
+        /// Configura i servizi dell'applicazione.
+        /// </summary>
         public void ConfigureServices()
         {
+            // Aggiungi il servizio dei controller.
             _ = _builder.Services.AddControllers();
 
+            // Configura i servizi personalizzati.
             ConfigureMyServices();
+
+            // Configura la gestione della cache.
             ConfigureCache();
 
+            // Leggi le impostazioni dall'appSettings e configura i servizi HTTP.
             var appSettings = _builder.Configuration.GetSection("Settings").Get<ApplicationSettings>();
             ConfigureSettings(appSettings);
             ConfigureHttp(appSettings);
@@ -34,11 +45,12 @@ namespace ApiService
 
         private void ConfigureCache()
         {
-            _ = _builder.Services
-                .AddSingleton<IUserLoggedHandler, UserLoggedHandler>()
-            ;
+            _ = _builder.Services.AddSingleton<IUserLoggedHandler, UserLoggedHandler>();
         }
 
+        /// <summary>
+        /// Configura l'applicazione.
+        /// </summary>
         public void Configure(IApplicationBuilder app)
         {
             _ = app.UseRouting();
@@ -66,8 +78,7 @@ namespace ApiService
                 .AddScoped<IOrderService, OrderService>()
                 .AddScoped<IProductService, ProductService>()
                 .AddScoped<IOrderService, OrderService>()
-                .AddScoped<IAddressBookService, AddressBookService>()
-            ;
+                .AddScoped<IAddressBookService, AddressBookService>();
         }
     }
 }
