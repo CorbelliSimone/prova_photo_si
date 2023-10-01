@@ -7,6 +7,9 @@ using ApiService.Service.Product.Httpz;
 
 namespace ApiService.Service.Order
 {
+    /// <summary>
+    /// Servizio per la gestione degli ordini.
+    /// </summary>
     public class OrderService : IOrderService
     {
         private readonly IOrderHttpClient _orderHttpClient;
@@ -25,11 +28,22 @@ namespace ApiService.Service.Order
             _addressBookHttpClient = addressBookHttpClient;
         }
 
+        /// <summary>
+        /// Elimina un ordine in modo asincrono.
+        /// </summary>
+        /// <param name="id">L'ID dell'ordine da eliminare.</param>
+        /// <returns>True se l'eliminazione ha avuto successo, altrimenti false.</returns>
         public Task<bool> DeleteAsync(int id)
         {
             return _orderHttpClient.Delete($"{id}");
         }
 
+
+        /// <summary>
+        /// Ottiene i dettagli di un ordine in modo asincrono.
+        /// </summary>
+        /// <param name="id">L'ID dell'ordine da recuperare.</param>
+        /// <returns>I dettagli dell'ordine.</returns>
         public async Task<OrderMapperCompleteDto> GetAsync(int id)
         {
             var order = await _orderHttpClient.Get<OrderDto>($"{id}");
@@ -56,6 +70,10 @@ namespace ApiService.Service.Order
             };
         }
 
+        /// <summary>
+        /// Ottiene la lista completa degli ordini in modo asincrono.
+        /// </summary>
+        /// <returns>La lista completa degli ordini con i dettagli.</returns>
         public async Task<List<OrderMapperCompleteDto>> GetAsync()
         {
             // Cache locale per risparmiare chiamate http
@@ -107,6 +125,11 @@ namespace ApiService.Service.Order
             return orderMapperComplete;
         }
 
+        /// <summary>
+        /// Effettua un ordine in modo asincrono.
+        /// </summary>
+        /// <param name="orderDto">I dettagli dell'ordine.</param>
+        /// <returns>Il risultato dell'operazione di ordinazione.</returns>
         public async Task<object> PlaceOrder(OrderDto orderDto)
         {
             foreach (var product in orderDto.Products)
