@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
 
 using UsersService.Service.User;
 using UsersService.Service.User.Dto;
