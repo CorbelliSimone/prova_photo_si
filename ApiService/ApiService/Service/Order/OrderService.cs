@@ -5,6 +5,8 @@ using ApiService.Service.Order.Exceptionz;
 using ApiService.Service.Order.Httpz;
 using ApiService.Service.Product.Httpz;
 
+using System.Collections.Concurrent;
+
 namespace ApiService.Service.Order
 {
     /// <summary>
@@ -76,53 +78,43 @@ namespace ApiService.Service.Order
         /// <returns>La lista completa degli ordini con i dettagli.</returns>
         public async Task<List<OrderMapperCompleteDto>> GetAsync()
         {
-            // Cache locale per risparmiare chiamate http
-            var addressDictionary = new Dictionary<int, AddressCompleteDto>();
-            var productDictionary = new Dictionary<int, ProductOrdersDto>();
-            var orderMapperComplete = new List<OrderMapperCompleteDto>();
+            var addressDictionary = new ConcurrentDictionary<int, AddressCompleteDto>();
+            var productDictionary = new ConcurrentDictionary<int, ProductOrdersDto>();
             var orders = await _orderHttpClient.Get<List<OrderDto>>(string.Empty);
-            foreach (var order in orders)
+            var orderMapperCompleteTasks = orders.Select(async order =>
             {
-                var productsList = new List<ProductOrdersDto>();
-                foreach (var product in order.Products)
+                var productsListTasks = order.Products.Select(async product =>
                 {
-                    ProductOrdersDto productComplete = null;
-                    if (productDictionary.ContainsKey(product.Id))
-                    {
-                        productComplete = productDictionary[product.Id];
-                    }
-                    else
+                    if (!productDictionary.TryGetValue(product.Id, out var productComplete))
                     {
                         productComplete = await _productHttpClient.Get<ProductOrdersDto>($"{product.Id}");
-                        productDictionary.Add(product.Id, productComplete);
+                        productDictionary.TryAdd(product.Id, productComplete);
                     }
 
                     productComplete.Quantity = product.Quantity;
-                    productsList.Add(productComplete);
-                }
+                    return productComplete;
+                });
 
-                AddressCompleteDto addressCompleteDto = null;
-                if (addressDictionary.ContainsKey(order.AddressId))
-                {
-                    addressCompleteDto = addressDictionary[order.AddressId];
-                }
-                else
+                var productsList = await Task.WhenAll(productsListTasks);
+
+                if (!addressDictionary.TryGetValue(order.AddressId, out var addressCompleteDto))
                 {
                     addressCompleteDto = await _addressBookHttpClient.Get<AddressCompleteDto>($"{order.AddressId}");
-                    addressDictionary.Add(order.AddressId, addressCompleteDto);
+                    addressDictionary.TryAdd(order.AddressId, addressCompleteDto);
                 }
 
-                orderMapperComplete.Add(new OrderMapperCompleteDto()
+                return new OrderMapperCompleteDto
                 {
                     Address = addressCompleteDto,
                     UserId = order.UserId,
                     Id = order.Id,
                     OrderName = order.OrderName,
-                    Products = productsList
-                });
-            }
+                    Products = productsList.ToList()
+                };
+            });
 
-            return orderMapperComplete;
+            var orderMapperComplete = await Task.WhenAll(orderMapperCompleteTasks);
+            return orderMapperComplete.ToList();
         }
 
         /// <summary>
