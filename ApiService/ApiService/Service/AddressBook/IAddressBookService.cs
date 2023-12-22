@@ -5,6 +5,7 @@
     /// </summary>
     public interface IAddressBookService
     {
+        //
         /// <summary>
         /// Elimina un indirizzo.
         /// </summary>
