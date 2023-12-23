@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiService.Controllers
 {
+// sium
     /// <summary>
     /// Controller per gestire le operazioni relative all'indirizzario.
     /// </summary>
